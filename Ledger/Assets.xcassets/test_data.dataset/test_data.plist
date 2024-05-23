@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AccountBudgets</key>
+	<array/>
+	<key>AccountEntries</key>
+	<array>
+		<dict>
+			<key>creditAmount</key>
+			<string>100</string>
+			<key>date</key>
+			<date>2024-05-09T02:51:20Z</date>
+			<key>debitAmount</key>
+			<string>0</string>
+			<key>notes</key>
+			<string>hello world</string>
+			<key>posted</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>creditAmount</key>
+			<string>0</string>
+			<key>date</key>
+			<date>2024-05-08T07:00:00Z</date>
+			<key>debitAmount</key>
+			<string>0.05</string>
+			<key>notes</key>
+			<string>New Entry</string>
+			<key>posted</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>creditAmount</key>
+			<string>0</string>
+			<key>date</key>
+			<date>2024-01-19T08:00:00Z</date>
+			<key>debitAmount</key>
+			<string>0</string>
+			<key>notes</key>
+			<string>New Entry</string>
+			<key>posted</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>creditAmount</key>
+			<string>0</string>
+			<key>date</key>
+			<date>2024-05-09T02:52:59Z</date>
+			<key>debitAmount</key>
+			<string>1000</string>
+			<key>notes</key>
+			<string>New Entry</string>
+			<key>posted</key>
+			<false/>
+		</dict>
+	</array>
+	<key>AccountNotes</key>
+	<string>account notes</string>
+	<key>UseRoundedTotals</key>
+	<string>YES</string>
+</dict>
+</plist>

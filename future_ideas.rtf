@@ -1,0 +1,47 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red31\green31\blue36;\red108\green121\blue134;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c100000\c100000\c100000\c85000;\csgenericrgb\c12054\c12284\c14131;\csgenericrgb\c42394\c47462\c52518;
+}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+Create a mini calculator which overlays the table view and which is draggable around the screen (so as not to cover an important view)\
+\
+Use split views to allows multiple accounts to be viewed on one screen\
+\
+\
+Bugs:\
+1. Weird scrolling behavior when blurring view (view seems to jump up/down when unblurred seemingly caused by .onAppear call in AccountTableView)\
+\
+\
+\
+\
+\
+other code:\
+\
+\pard\tx642\pardeftab642\partightenfactor0
+
+\f1\fs26 \cf2 \cb3             \
+\cf4 //                          .onAppear \{\cf2 \
+\cf4 //                        NSEvent.addLocalMonitorForEvents(matching: .scrollWheel) \{ event in\cf2 \
+\cf4 //                            guard let entry = viewModel.getFirstSelectedEntry(from: selected) else \{ return event \}\cf2 \
+\cf4 //                            guard let index = viewModel.indexOf(id: entry.id) else \{ return event \}\cf2 \
+\cf4 //                            \cf2 \
+\cf4 //                            if event.scrollingDeltaY < 0 \{\cf2 \
+\cf4 //                                // move selected entry up\cf2 \
+\cf4 //                                viewModel.swap(index, index - 1)\cf2 \
+\cf4 //                            \} else \{\cf2 \
+\cf4 //                                // move selected entry down\cf2 \
+\cf4 //                                viewModel.swap(index, index + 1)\cf2 \
+\cf4 //                            \}\cf2 \
+\cf4 //                            \cf2 \
+\cf4 //                            return event\cf2 \
+\cf4 //                        \}\cf2 \
+\cf4 //                    \}
+\f0\fs24 \cf0 \cb1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+}
