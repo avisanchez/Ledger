@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E48B0C82BF15538009FE3C7 /* 2018-05-20-Checking.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E48B0C62BF15538009FE3C7 /* 2018-05-20-Checking.plist */; };
 		0E48B0C92BF15538009FE3C7 /* 2018-05-20-CreditCard.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E48B0C72BF15538009FE3C7 /* 2018-05-20-CreditCard.plist */; };
-		0E56DBBB2BFBDB560037D189 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E56DBBA2BFBDB560037D189 /* AccountViewModel.swift */; };
+		0E56DBBB2BFBDB560037D189 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E56DBBA2BFBDB560037D189 /* ViewModel.swift */; };
 		0E56DBC42BFD62D00037D189 /* Ledger.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E56DBC22BFD62D00037D189 /* Ledger.xcdatamodeld */; };
 		0EBF44CE2BEC51A60039CB5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */; };
 		0EBF44D12BEC51A60039CB5E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44D02BEC51A60039CB5E /* Preview Assets.xcassets */; };
@@ -18,6 +18,15 @@
 		0EBF44E42BED560E0039CB5E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF44CB2BEC51A50039CB5E /* ContentView.swift */; };
 		0EBF45082BEDC49A0039CB5E /* test_data.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EBF44FA2BED5B360039CB5E /* test_data.plist */; };
 		0EBF450B2BEDDF580039CB5E /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF450A2BEDDF580039CB5E /* Helper.swift */; };
+		0EDC6FEB2C056BCC0034B411 /* AccountTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEA2C056BCC0034B411 /* AccountTableView.swift */; };
+		0EDC6FED2C0581BC0034B411 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEC2C0581BC0034B411 /* DateFormatter.swift */; };
+		0EDC6FF02C06766F0034B411 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEF2C06766F0034B411 /* EditorView.swift */; };
+		0EDC6FF22C0677C80034B411 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF12C0677C80034B411 /* NumberFormatter.swift */; };
+		0EDC6FF42C0697A00034B411 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF32C0697A00034B411 /* View.swift */; };
+		0EDC6FF62C06B2340034B411 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF52C06B2340034B411 /* CoreDataStack.swift */; };
+		0EDC6FF82C079C660034B411 /* AccountDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF72C079C660034B411 /* AccountDropDelegate.swift */; };
+		0EDC6FFA2C07D6F50034B411 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF92C07D6F50034B411 /* NotificationView.swift */; };
+		0EDC6FFC2C07F7C20034B411 /* AccountEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FFB2C07F7C20034B411 /* AccountEntry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,7 +45,7 @@
 /* Begin PBXFileReference section */
 		0E48B0C62BF15538009FE3C7 /* 2018-05-20-Checking.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "2018-05-20-Checking.plist"; sourceTree = "<group>"; };
 		0E48B0C72BF15538009FE3C7 /* 2018-05-20-CreditCard.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "2018-05-20-CreditCard.plist"; sourceTree = "<group>"; };
-		0E56DBBA2BFBDB560037D189 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		0E56DBBA2BFBDB560037D189 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		0E56DBBC2BFC5C320037D189 /* future_ideas.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = future_ideas.rtf; sourceTree = "<group>"; };
 		0E56DBC32BFD62D00037D189 /* Ledger.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Ledger.xcdatamodel; sourceTree = "<group>"; };
 		0E56DBC52BFDD4B40037D189 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +58,15 @@
 		0EBF44DE2BED40190039CB5E /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		0EBF44FA2BED5B360039CB5E /* test_data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_data.plist; sourceTree = "<group>"; };
 		0EBF450A2BEDDF580039CB5E /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		0EDC6FEA2C056BCC0034B411 /* AccountTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableView.swift; sourceTree = "<group>"; };
+		0EDC6FEC2C0581BC0034B411 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		0EDC6FEF2C06766F0034B411 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
+		0EDC6FF12C0677C80034B411 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
+		0EDC6FF32C0697A00034B411 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		0EDC6FF52C06B2340034B411 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		0EDC6FF72C079C660034B411 /* AccountDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDropDelegate.swift; sourceTree = "<group>"; };
+		0EDC6FF92C07D6F50034B411 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		0EDC6FFB2C07F7C20034B411 /* AccountEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEntry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,15 +100,21 @@
 		0EBF44C82BEC51A50039CB5E /* Ledger */ = {
 			isa = PBXGroup;
 			children = (
-				0E56DBC52BFDD4B40037D189 /* Info.plist */,
 				0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */,
 				0EBF44CB2BEC51A50039CB5E /* ContentView.swift */,
+				0EDC6FEE2C0582610034B411 /* Extension */,
+				0EBF45092BEDC6300039CB5E /* Model */,
+				0EDC6FE92C056B200034B411 /* View */,
+				0EDC6FF72C079C660034B411 /* AccountDropDelegate.swift */,
+				0E56DBBA2BFBDB560037D189 /* ViewModel.swift */,
+				0EDC6FF52C06B2340034B411 /* CoreDataStack.swift */,
+				0EBF450A2BEDDF580039CB5E /* Helper.swift */,
+				0E56DBC52BFDD4B40037D189 /* Info.plist */,
 				0EBF44FA2BED5B360039CB5E /* test_data.plist */,
 				0E48B0C62BF15538009FE3C7 /* 2018-05-20-Checking.plist */,
 				0E48B0C72BF15538009FE3C7 /* 2018-05-20-CreditCard.plist */,
-				0EBF45092BEDC6300039CB5E /* Model */,
-				0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */,
 				0E56DBC22BFD62D00037D189 /* Ledger.xcdatamodeld */,
+				0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */,
 				0EBF44D22BEC51A60039CB5E /* Ledger.entitlements */,
 				0EBF44CF2BEC51A60039CB5E /* Preview Content */,
 			);
@@ -108,11 +132,30 @@
 		0EBF45092BEDC6300039CB5E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0EBF450A2BEDDF580039CB5E /* Helper.swift */,
 				0EBF44DE2BED40190039CB5E /* Account.swift */,
-				0E56DBBA2BFBDB560037D189 /* AccountViewModel.swift */,
+				0EDC6FFB2C07F7C20034B411 /* AccountEntry.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0EDC6FE92C056B200034B411 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0EDC6FEA2C056BCC0034B411 /* AccountTableView.swift */,
+				0EDC6FEF2C06766F0034B411 /* EditorView.swift */,
+				0EDC6FF92C07D6F50034B411 /* NotificationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0EDC6FEE2C0582610034B411 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0EDC6FEC2C0581BC0034B411 /* DateFormatter.swift */,
+				0EDC6FF12C0677C80034B411 /* NumberFormatter.swift */,
+				0EDC6FF32C0697A00034B411 /* View.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,11 +231,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EDC6FF02C06766F0034B411 /* EditorView.swift in Sources */,
+				0EDC6FF62C06B2340034B411 /* CoreDataStack.swift in Sources */,
+				0EDC6FF22C0677C80034B411 /* NumberFormatter.swift in Sources */,
+				0EDC6FED2C0581BC0034B411 /* DateFormatter.swift in Sources */,
 				0EBF450B2BEDDF580039CB5E /* Helper.swift in Sources */,
-				0E56DBBB2BFBDB560037D189 /* AccountViewModel.swift in Sources */,
+				0EDC6FFC2C07F7C20034B411 /* AccountEntry.swift in Sources */,
+				0E56DBBB2BFBDB560037D189 /* ViewModel.swift in Sources */,
 				0E56DBC42BFD62D00037D189 /* Ledger.xcdatamodeld in Sources */,
+				0EDC6FEB2C056BCC0034B411 /* AccountTableView.swift in Sources */,
+				0EDC6FF82C079C660034B411 /* AccountDropDelegate.swift in Sources */,
 				0EBF44E32BED560E0039CB5E /* LedgerApp.swift in Sources */,
+				0EDC6FFA2C07D6F50034B411 /* NotificationView.swift in Sources */,
 				0EBF44E42BED560E0039CB5E /* ContentView.swift in Sources */,
+				0EDC6FF42C0697A00034B411 /* View.swift in Sources */,
 				0EBF44DF2BED40190039CB5E /* Account.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

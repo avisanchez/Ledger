@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct LedgerApp: App {
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        
-        
     }
 }

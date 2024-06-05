@@ -21,12 +21,18 @@ import Foundation
  
  */
 func loadEntries(from filename: String, ofType type: String) throws -> [AccountEntry] {
-    guard let path = Bundle.main.path(forResource: filename, ofType: type),
+    guard let path = Bundle.main.path(forResource: filename, ofType: nil),
           let xml = FileManager.default.contents(atPath: path) else {
         return []
     }
     
     return try PropertyListDecoder().decode(Account.self, from: xml).entries
+}
+
+func loadEntries(from url: URL) throws -> [AccountEntry] {
+    guard let data = try? Data(contentsOf: url) else { return [] }
+    
+    return try PropertyListDecoder().decode(Account.self, from: data).entries
 }
 
 /**

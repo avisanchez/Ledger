@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="CDAccount" representedClassName="CDAccount" syncable="YES" codeGenerationType="class"/>
-    <entity name="CDAccountEntry" representedClassName="CDAccountEntry" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CDAccount" representedClassName="CDAccount" syncable="YES" codeGenerationType="class">
+        <attribute name="accountID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="childEntry" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CDAccountEntry" inverseName="parentAccount" inverseEntity="CDAccountEntry"/>
+    </entity>
+    <entity name="CDAccountEntry" representedClassName="CDAccountEntry" parentEntity="CDAccount" syncable="YES" codeGenerationType="class">
         <attribute name="creditAmount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="date" attributeType="Date" defaultDateTimeInterval="-781041600" usesScalarValueType="NO"/>
         <attribute name="debitAmount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="isPosted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="note" attributeType="String" defaultValueString=""/>
-        <attribute name="runningTotal" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="entryID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="notes" attributeType="String" defaultValueString=""/>
+        <attribute name="posted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="runningTotal" transient="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="parentAccount" maxCount="1" deletionRule="Nullify" destinationEntity="CDAccount" inverseName="childEntry" inverseEntity="CDAccount"/>
     </entity>
 </model>
