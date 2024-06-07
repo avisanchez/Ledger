@@ -14,7 +14,6 @@ class Account: Codable, Identifiable {
     var entries: [AccountEntry]
     
     init(id: UUID = UUID(), name: String = "", entries: [AccountEntry] = []) {
-        
         self.id = id
         self.name = name
         self.entries = entries

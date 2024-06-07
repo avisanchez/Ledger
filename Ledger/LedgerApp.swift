@@ -10,10 +10,21 @@ import SwiftData
 
 @main
 struct LedgerApp: App {
+    private let container: ModelContainer
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(modelContext: container.mainContext)
+        }
+        .modelContainer(container)
+        
+    }
+    
+    init() {
+        do {
+            self.container = try ModelContainer(for: Account.self, AccountEntry.self)
+        } catch {
+            fatalError("Failed to create ModelContainer for Account, AccountEntry: \(error.localizedDescription)")
         }
     }
 }

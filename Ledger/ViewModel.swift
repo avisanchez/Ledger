@@ -5,28 +5,32 @@
 //  Created by Avi Sanchez on 5/20/24.
 //
 
-import SwiftUI
-import Observation
 import Foundation
+import SwiftUI
+import SwiftData
 
 
 @Observable
 class ViewModel {
-    
-    private(set) var accountName: String
+    private let context: ModelContext
+        
     private(set) var accountEntries: [AccountEntry]
     
     var selected: Set<AccountEntry.ID> {
         didSet { editableEntry = firstSelectedEntry() ?? AccountEntry() }
     }
     
+    //var accounts: [Account] = []
+    
     var editableEntry: AccountEntry
     
+    // when this property is updated, all relative totals are recalculated
     var useRoundedTotals: Bool {
         didSet { updateRunningTotal() }
     }
     
-    init() {
+    init(context: ModelContext) {
+        self.context = context
         
         do {
             self.accountEntries = try loadEntries(from: "2018-05-20-CreditCard", ofType: ".plist")
@@ -35,12 +39,38 @@ class ViewModel {
             fatalError("\(error)")
         }
         
-        self.accountName = "Empty Account Name"
         self.useRoundedTotals = false
         self.selected = []
         self.editableEntry = AccountEntry()
         
+        
+        
         updateRunningTotal()
+    }
+    
+    
+//    func fetchAccount(id: UUID) throws -> [Account] {
+//        var descriptor = FetchDescriptor<Account>(predicate: #Predicate<Account> {
+//            $0.id == id
+//        })
+//        descriptor.relationshipKeyPathsForPrefetching = [\.entries]
+//        
+//        do {
+//            let result = try context.fetch(descriptor)
+//            
+//            guard result.count == .zero else {
+//                fatalError("Fetched single account for unique ID and recieved multiple matches.")
+//            }
+//            
+//            return result
+//        } catch {
+//            
+//        }
+//    }
+    
+    func fetch<T: PersistentModel>(entityName: T) throws -> [T] {
+        let descriptor = FetchDescriptor<T>()
+        return try context.fetch(descriptor)
     }
 
     func togglePostedStatus(for entry: AccountEntry) {

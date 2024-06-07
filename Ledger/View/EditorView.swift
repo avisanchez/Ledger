@@ -5,24 +5,44 @@
 //  Created by Avi Sanchez on 5/28/24.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
+import SwiftData
 
 struct EditorView: View {
-    @Environment(ViewModel.self) var viewModel: ViewModel
+    
+    @Environment(ViewModel.self)
+    private var viewModel
+    
+    @Environment(\.modelContext) 
+    private var modelContext
+    
+    
+    @Binding private var selected: Set<AccountEntry.ID>
+    
+    init(selected: Binding<Set<AccountEntry.ID>>) {
+        self._selected = selected
+                
+//        let request = FetchDescriptor<AccountEntry>(predicate: #Predicate { entry in
+//            entry.id == UUID()
+//        })
+//        let request = FetchRequest(entity: AccountEntry.self, predicate: #Predicate<AccountEntry.self> {
+//            $0.id == selectedEntry.id
+//        })
+//        
+//        modelContext.fetch(request)
+    }
     
     var body: some View {
         
-        if viewModel.selected.count <= 1 {
-            SingleSelectView()
-        }
-        else {
-            MultiSelectView()
-        }
-        
-        
-        
-        
+        Text("Editor View Goes Here")
+            .padding()
+//        if (viewModel.selected.count <= 1) {
+//            SingleSelectView()
+//        }
+//        else {
+//            MultiSelectView()
+//        }
     }
 }
 

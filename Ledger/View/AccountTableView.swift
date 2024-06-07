@@ -5,28 +5,34 @@
 //  Created by Avi Sanchez on 5/27/24.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
+import SwiftData
+
 
 struct AccountTableView: View {
     
-    @Environment(ViewModel.self) var viewModel: ViewModel
+    @Environment(ViewModel.self)
+    private var viewModel
         
-    private let dateFormat = "dd/MM"
+    @Binding private var selected: Set<AccountEntry.ID>
+    @Binding private var isBlurred: Bool
+    
+    init(selected: Binding<Set<AccountEntry.ID>>, isBlurred: Binding<Bool>) {
+        self._selected = selected
+        self._isBlurred = isBlurred
+    }
 
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
-        Table(viewModel.accountEntries, selection: $viewModel.selected) {
+        Table(viewModel.accountEntries, selection: $selected) {
+            
             TableColumn("Date") { entry in
-                Text(DateFormatter.format(entry.date, using: dateFormat))
+                Text(DateFormatter.format(entry.date, using: "dd/MM"))
             }
             .width(60)
             
-            TableColumn("Details") { entry in
-                Text(entry.notes)
-            }
-            .width(min: 100)
+            TableColumn("Details", value: \.notes)
+                .width(min: 100)
             
             TableColumn("Debit") { entry in
                 Text(abs(entry.debitAmount), format: .currency(code: "USD"))
@@ -44,7 +50,7 @@ struct AccountTableView: View {
                 Image(systemName: entry.posted ? "checkmark" : "square")
                     .bold()
                     .onTapGesture {
-                        viewModel.togglePostedStatus(for: entry)
+                        //viewModel.togglePostedStatus(for: entry)
                     }
             }
             .width(10)

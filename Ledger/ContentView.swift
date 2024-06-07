@@ -7,17 +7,23 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 
 struct ContentView: View {
-
-    @State private var viewModel = ViewModel()
+    @State private var viewModel: ViewModel
+    @State private var viewModel2: ViewModel2
+    
     @State private var isBlurred: Bool
     @State private var searchTerm: String
+    @State private var selected: Set<AccountEntry.ID>
     
-    init() {
+    init(modelContext: ModelContext) {
         self._isBlurred = State(initialValue: false)
         self._searchTerm = State(initialValue: "")
+        self._selected = State(initialValue: [])
+        self._viewModel = State(initialValue: ViewModel(context: modelContext))
+        self._viewModel2 = State(initialValue: ViewModel2(modelContext: modelContext))
     }
     
     var body: some View {
@@ -25,12 +31,12 @@ struct ContentView: View {
         NavigationSplitView( 
             sidebar: {
                 
-
+                SidebarView()
         }, detail: {
-            VSplitView {
+            VStack {
                 
                 ScrollViewReader { proxy in
-                    AccountTableView()
+                    AccountTableView(selected: $selected, isBlurred: $isBlurred)
                         .conditionalBlurStyle(isBlurred)
                         .disabled(isBlurred)
                         
@@ -45,17 +51,17 @@ struct ContentView: View {
                             proxy.scrollTo(id, anchor: .center)
                         }
                 }
-                
-                EditorView()
+                                
+                EditorView(selected: $selected)
                     .conditionalBlurStyle(isBlurred)
                     .allowsHitTesting(!isBlurred)
             }
         })
         .environment(viewModel)
+        .environment(viewModel2)
         .searchable(text: $searchTerm, prompt: "Search notes")
-        .navigationTitle("\(viewModel.accountName)")
-        .fontDesign(.monospaced)
-        .onDrop(of: AccountDropDelegate.allowedTypes, delegate: AccountDropDelegate())
+        //.navigationTitle("\(viewModel.accountName)")
+        //.onDrop(of: AccountDropDelegate.allowedTypes, delegate: AccountDropDelegate())
         .toolbar {
             
             Button {
@@ -78,12 +84,12 @@ struct ContentView: View {
 //                Image(systemName: "plus")
 //            }
             
-            Toggle("RT", isOn: $viewModel.useRoundedTotals)
+            //Toggle("RT", isOn: $viewModel.useRoundedTotals)
         }
     }
     
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView(modelContext: <#T##ModelContext#>)
+//}

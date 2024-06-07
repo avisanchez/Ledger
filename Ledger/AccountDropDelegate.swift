@@ -26,7 +26,7 @@ struct AccountDropDelegate: DropDelegate {
                     fatalError("Failed to cast item as URL")
                 }
                 do {
-                    //let entries = try loadEntries(from: filePath)
+                    let entries = try loadEntries(from: filePath)
                 } catch {
                     print("Failed to create account: \(error)")
                 }
