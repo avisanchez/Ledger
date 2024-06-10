@@ -16,7 +16,10 @@ struct ContentView: View {
     
     @State private var isBlurred: Bool
     @State private var searchTerm: String
-    @State private var selected: Set<AccountEntry.ID>
+    @State private var selected: Set<AccountEntry.ID>?
+    
+    @State private var selectedAccount: Account.ID?
+    @State private var selectedEntries: Set<AccountEntry.ID> = []
     
     init(modelContext: ModelContext) {
         self._isBlurred = State(initialValue: false)
@@ -30,31 +33,31 @@ struct ContentView: View {
         
         NavigationSplitView( 
             sidebar: {
-                
                 SidebarView()
         }, detail: {
             VStack {
                 
-                ScrollViewReader { proxy in
-                    AccountTableView(selected: $selected, isBlurred: $isBlurred)
+//                ScrollViewReader { proxy in
+                    AccountTableView(selectedAccount: viewModel2.selectedAccount,
+                                     isBlurred: $isBlurred)
                         .conditionalBlurStyle(isBlurred)
                         .disabled(isBlurred)
-                        
-                        .onAppear {
-                            guard let lastEntry = viewModel.accountEntries.last else { return }
-                            proxy.scrollTo(lastEntry.id)
-                        }
-                        .onSubmit(of: .search) {
-                            guard let id = viewModel.searchFor(searchTerm) else { return }
-                            
-                            viewModel.selected = [id]
-                            proxy.scrollTo(id, anchor: .center)
-                        }
-                }
+////                        
+////                        .onAppear {
+////                            guard let lastEntry = viewModel.accountEntries.last else { return }
+////                            proxy.scrollTo(lastEntry.id)
+////                        }
+////                        .onSubmit(of: .search) {
+////                            guard let id = viewModel.searchFor(searchTerm) else { return }
+////                            
+////                            viewModel.selected = [id]
+////                            proxy.scrollTo(id, anchor: .center)
+////                        }
+//                }
                                 
-                EditorView(selected: $selected)
-                    .conditionalBlurStyle(isBlurred)
-                    .allowsHitTesting(!isBlurred)
+//                EditorView(selected: $selected)
+//                    .conditionalBlurStyle(isBlurred)
+//                    .allowsHitTesting(!isBlurred)
             }
         })
         .environment(viewModel)
@@ -77,14 +80,17 @@ struct ContentView: View {
                 Image(systemName: isBlurred ? "eye.slash" : "eye")
             }
             
-//            Button {
-//                guard let entry = viewModel.getFirstSelectedEntry(from: selected) else { return }
-//                viewModel.insert(AccountEntry(), at: entry.id)
-//            } label: {
-//                Image(systemName: "plus")
-//            }
+            Button {
+                print("adding entry!")
+                viewModel2.createEntry()
+            } label: {
+                Image(systemName: "plus")
+            }
             
             //Toggle("RT", isOn: $viewModel.useRoundedTotals)
+        }
+        .onChange(of: viewModel2.selectedAccount) { oldValue, newValue in
+            print("Selected account: \(newValue?.name)")
         }
     }
     

@@ -21,33 +21,45 @@ struct SidebarView: View {
     
     @State private var isEditing: Bool = false
     @State private var isShowingAlert: Bool = false
-    //@State private var selectedAccount: Account.ID?
-    @State private var accountToDelete: Account.ID?
-    
+    @State private var selectedAccountID: Account.ID?
+    @State private var accountToDeleteID: Account.ID?
+        
     private var accountToDeleteName: String {
-        guard let accountToDelete else { return "" }
-        return accounts.first(where: { $0.id == accountToDelete })?.name ?? ""
+        guard let accountToDeleteID else { return "" }
+        return accounts.first(where: { $0.id == accountToDeleteID })?.name ?? ""
     }
         
     var body: some View {
         
         VStack {
             // -- List of accounts
-            List(selection: Bindable(viewModel2).selectedAccount) {
+            List(selection: $selectedAccountID) {
                 Section("My Accounts") {
                     ForEach(accounts) { account in
-                        TextField("", text: Bindable(account).name)
-                            .textFieldStyle(.plain)
-                            .onSubmit {
-                                isEditing = false
-                            }
-                            .contextMenu(
-                                ContextMenu {
-                                    Button("Delete") {
-                                        initiateDeleteSequence(for: account.id)
+                        
+                        if !isEditing {
+                            Text(account.name)
+                                .contextMenu(
+                                    ContextMenu {
+                                        Button("Delete") {
+                                            initiateDeleteSequence(for: account.id)
+                                        }
                                     }
+                                )
+                        } else {
+                            TextField("", text: Bindable(account).name)
+                                .textFieldStyle(.plain)
+                                .onSubmit {
+                                    isEditing = false
                                 }
-                            )
+                                .contextMenu(
+                                    ContextMenu {
+                                        Button("Delete") {
+                                            initiateDeleteSequence(for: account.id)
+                                        }
+                                    }
+                                )
+                        }
                     }
                 }
             }
@@ -74,8 +86,12 @@ struct SidebarView: View {
         }
         // -- Detect delete shortcut
         .onKeyPress(KeyEquivalent("\u{7F}")) {
-            guard let selectedAccount = viewModel2.selectedAccount else { return .ignored }
-            initiateDeleteSequence(for: selectedAccount)
+            guard let selectedAccountID else { return .ignored }
+            initiateDeleteSequence(for: selectedAccountID)
+            return .handled
+        }
+        .onKeyPress(.return) {
+            isEditing = true
             return .handled
         }
         // -- Confirm account deletion
@@ -83,22 +99,26 @@ struct SidebarView: View {
             Button("Cancel", role: .cancel) {
                 isShowingAlert = false
             }
-            Button("Delete", role: .destructive) {
-                viewModel2.deleteAccount(id: accountToDelete)
+            Button("Delete") {
+                viewModel2.deleteAccount(id: accountToDeleteID)
                 
-                if viewModel2.selectedAccount == accountToDelete {
-                    viewModel2.selectedAccount = nil
+                if selectedAccountID == accountToDeleteID {
+                    selectedAccountID = nil
                 }
                 
-                accountToDelete = nil
+                accountToDeleteID = nil
             }
         } message: {
-            Text("Deleting the account will also erase associated entries which can not be recovered.")
+            Text("The account and its associated entries will be deleted from all your devices.")
         }
+        .onChange(of: selectedAccountID) { oldValue, newValue in
+            viewModel2.selectedAccount = accounts.first(where: { $0.id == newValue })
+        }
+
     }
     
     private func initiateDeleteSequence(for id: Account.ID) {
-        self.accountToDelete = id
+        self.accountToDeleteID = id
         self.isShowingAlert = true
     }
 }

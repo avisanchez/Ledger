@@ -3,14 +3,14 @@ import SwiftData
 
 
 @Model
-class Account: Codable, Identifiable {
+class Account: Codable, Identifiable, Equatable {
     
     @Attribute(.unique)
     let id: UUID
     
     var name: String
     
-    @Relationship(deleteRule: .cascade)
+    @Relationship(deleteRule: .cascade, inverse: \AccountEntry.owner)
     var entries: [AccountEntry]
     
     init(id: UUID = UUID(), name: String = "", entries: [AccountEntry] = []) {
@@ -39,5 +39,9 @@ class Account: Codable, Identifiable {
         case AccountID
         case AccountName
         case AccountEntries
+    }
+    
+    static func ==(lhs: Account, rhs: Account) -> Bool {
+        return lhs.id == rhs.id
     }
 }

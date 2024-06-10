@@ -12,29 +12,27 @@ import SwiftData
 class ViewModel2 {
     private let modelContext: ModelContext
     
-    var selectedAccount: Account.ID?
+    var selectedAccount: Account?
+    var selectedEntries: Set<AccountEntry.ID>
     
-    var allData: [Account] = []
-    
+    var firstSelectedEntry: (Int, AccountEntry)? {
+        guard let selectedAccount else { return nil }
+
+        return selectedAccount.entries.enumerated().first(where: {
+            selectedEntries.contains($0.element.id)
+        })
+    }
+            
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
-                
-        do {
-            var descriptor = FetchDescriptor<Account>()
-            descriptor.sortBy = [SortDescriptor(\.name)]
-            descriptor.relationshipKeyPathsForPrefetching = [\.entries]
-            
-            allData = try fetch(descriptor)
-        } catch {
-            fatalError("\(error.localizedDescription)")
-        }
+        self.selectedEntries = []
     }
     
     func createAccount() {
         modelContext.insert(Account(name: "New Account"))
     }
     
-    func deleteAccount(id: UUID?) {
+    func deleteAccount(id: Account.ID?) {
         guard let id else { return }
         
         do {
@@ -44,6 +42,35 @@ class ViewModel2 {
         } catch {
             fatalError("Failed to delete account: \(error.localizedDescription)")
         }
+    }
+    
+    func createEntry() {
+        guard let selectedAccount else { return }
+        
+        let newEntry = AccountEntry()
+        newEntry.notes = "\(newEntry.id)"
+
+        if let firstSelectedEntry  {
+            print("Array before: \(selectedEntriesAsString)")
+            selectedAccount.entries.insert(newEntry, at: firstSelectedEntry.0)
+            print("Array after: \(selectedEntriesAsString)")
+        } else {
+            print("appending entry to list")
+            selectedAccount.entries.append(newEntry)
+        }
+    }
+    
+    // DEBUG
+    private var selectedEntriesAsString: String {
+        guard let selectedAccount else { return "" }
+        
+        var formattedString: String = "["
+        for entry in selectedAccount.entries {
+            formattedString += "\(entry.notes), "
+        }
+        formattedString.removeLast(2)
+        formattedString += "]"
+        return formattedString
     }
     
     

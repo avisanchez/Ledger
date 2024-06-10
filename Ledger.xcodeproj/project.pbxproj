@@ -13,6 +13,7 @@
 		0E6276ED2C1115F000CC857D /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276EC2C1115F000CC857D /* SidebarView.swift */; };
 		0E6276EF2C115EB400CC857D /* ViewModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276EE2C115EB400CC857D /* ViewModel2.swift */; };
 		0E6276F32C12374100CC857D /* FetchDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276F22C12374100CC857D /* FetchDescriptor.swift */; };
+		0E6276F52C14262100CC857D /* DLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276F42C14262100CC857D /* DLinkedList.swift */; };
 		0EBF44CE2BEC51A60039CB5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */; };
 		0EBF44D12BEC51A60039CB5E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44D02BEC51A60039CB5E /* Preview Assets.xcassets */; };
 		0EBF44DF2BED40190039CB5E /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF44DE2BED40190039CB5E /* Account.swift */; };
@@ -54,6 +55,7 @@
 		0E6276EC2C1115F000CC857D /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		0E6276EE2C115EB400CC857D /* ViewModel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel2.swift; sourceTree = "<group>"; };
 		0E6276F22C12374100CC857D /* FetchDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDescriptor.swift; sourceTree = "<group>"; };
+		0E6276F42C14262100CC857D /* DLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLinkedList.swift; sourceTree = "<group>"; };
 		0EBF44C62BEC51A50039CB5E /* Ledger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ledger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerApp.swift; sourceTree = "<group>"; };
 		0EBF44CB2BEC51A50039CB5E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				0EBF44DE2BED40190039CB5E /* Account.swift */,
+				0E6276F42C14262100CC857D /* DLinkedList.swift */,
 				0EDC6FFB2C07F7C20034B411 /* AccountEntry.swift */,
 			);
 			path = PersistenceModel;
@@ -239,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E6276F52C14262100CC857D /* DLinkedList.swift in Sources */,
 				0EDC6FF02C06766F0034B411 /* EditorView.swift in Sources */,
 				0EDC6FF62C06B2340034B411 /* CoreDataStack.swift in Sources */,
 				0E6276ED2C1115F000CC857D /* SidebarView.swift in Sources */,

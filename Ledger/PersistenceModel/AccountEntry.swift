@@ -8,6 +8,8 @@ class AccountEntry: Identifiable, Codable {
     @Attribute(.unique)
     let id: UUID = UUID()
     
+    var owner: Account?
+    
     // The date which the transaction took place
     var date: Date
     
