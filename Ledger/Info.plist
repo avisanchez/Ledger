@@ -10,11 +10,25 @@
 				<string>com.public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>AccountEntry</string>
+			<string></string>
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
 			<string>name.avisanchez.accountEntry</string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+		<dict/>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeDescription</key>
+			<string></string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>mcb</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>

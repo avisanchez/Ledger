@@ -9,27 +9,34 @@
 /* Begin PBXBuildFile section */
 		0E48B0C82BF15538009FE3C7 /* 2018-05-20-Checking.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E48B0C62BF15538009FE3C7 /* 2018-05-20-Checking.plist */; };
 		0E48B0C92BF15538009FE3C7 /* 2018-05-20-CreditCard.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E48B0C72BF15538009FE3C7 /* 2018-05-20-CreditCard.plist */; };
-		0E56DBBB2BFBDB560037D189 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E56DBBA2BFBDB560037D189 /* ViewModel.swift */; };
+		0E5E88AB2C1AAAAD0084B85A /* NSSet+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E88AA2C1AAAAD0084B85A /* NSSet+helper.swift */; };
+		0E5E88F92C2532300084B85A /* CDAccount+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E88F82C2532300084B85A /* CDAccount+Codable.swift */; };
+		0E5E88FB2C2532610084B85A /* CDAccountEntry+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E88FA2C2532610084B85A /* CDAccountEntry+Codable.swift */; };
+		0E5E88FE2C2695D80084B85A /* Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E88FD2C2695D80084B85A /* Sortable.swift */; };
+		0E5E89082C2744E90084B85A /* KeyEquivalent+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89072C2744E90084B85A /* KeyEquivalent+helper.swift */; };
+		0E5E89092C28F0480084B85A /* AccountTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEA2C056BCC0034B411 /* AccountTableView.swift */; };
+		0E5E89272C2BDAB10084B85A /* CDAccountDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF72C079C660034B411 /* CDAccountDropDelegate.swift */; };
+		0E5E89292C2BDBB20084B85A /* CDAccount+Transferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89282C2BDBB20084B85A /* CDAccount+Transferable.swift */; };
+		0E5E892C2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E892B2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift */; };
+		0E5E89312C30C6220084B85A /* SidebarView+CreateAccountFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89302C30C6220084B85A /* SidebarView+CreateAccountFlow.swift */; };
+		0E5E89352C30E15B0084B85A /* String+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89342C30E15B0084B85A /* String+helper.swift */; };
+		0E5E89372C3137D40084B85A /* UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89362C3137D40084B85A /* UTType.swift */; };
+		0E5E89382C31D4BC0084B85A /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEF2C06766F0034B411 /* EditorView.swift */; };
 		0E6276ED2C1115F000CC857D /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276EC2C1115F000CC857D /* SidebarView.swift */; };
-		0E6276EF2C115EB400CC857D /* ViewModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276EE2C115EB400CC857D /* ViewModel2.swift */; };
-		0E6276F32C12374100CC857D /* FetchDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276F22C12374100CC857D /* FetchDescriptor.swift */; };
-		0E6276F52C14262100CC857D /* DLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276F42C14262100CC857D /* DLinkedList.swift */; };
+		0E6276F32C12374100CC857D /* FetchDescriptor+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276F22C12374100CC857D /* FetchDescriptor+helper.swift */; };
+		0E6277572C16D0B600CC857D /* CDAccount+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6277562C16D0B600CC857D /* CDAccount+helper.swift */; };
+		0E6277592C195A2F00CC857D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6277582C195A2F00CC857D /* ViewController.swift */; };
+		0E62775A2C195BCB00CC857D /* Ledger.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E56DBC22BFD62D00037D189 /* Ledger.xcdatamodeld */; };
+		0E62775C2C1960F000CC857D /* CDAccountEntry+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E62775B2C1960F000CC857D /* CDAccountEntry+helper.swift */; };
 		0EBF44CE2BEC51A60039CB5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */; };
 		0EBF44D12BEC51A60039CB5E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44D02BEC51A60039CB5E /* Preview Assets.xcassets */; };
-		0EBF44DF2BED40190039CB5E /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF44DE2BED40190039CB5E /* Account.swift */; };
 		0EBF44E32BED560E0039CB5E /* LedgerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */; };
 		0EBF44E42BED560E0039CB5E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF44CB2BEC51A50039CB5E /* ContentView.swift */; };
 		0EBF45082BEDC49A0039CB5E /* test_data.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EBF44FA2BED5B360039CB5E /* test_data.plist */; };
-		0EBF450B2BEDDF580039CB5E /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF450A2BEDDF580039CB5E /* Helper.swift */; };
-		0EDC6FEB2C056BCC0034B411 /* AccountTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEA2C056BCC0034B411 /* AccountTableView.swift */; };
-		0EDC6FED2C0581BC0034B411 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEC2C0581BC0034B411 /* DateFormatter.swift */; };
-		0EDC6FF02C06766F0034B411 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEF2C06766F0034B411 /* EditorView.swift */; };
-		0EDC6FF22C0677C80034B411 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF12C0677C80034B411 /* NumberFormatter.swift */; };
-		0EDC6FF42C0697A00034B411 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF32C0697A00034B411 /* View.swift */; };
-		0EDC6FF62C06B2340034B411 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF52C06B2340034B411 /* CoreDataStack.swift */; };
-		0EDC6FF82C079C660034B411 /* AccountDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF72C079C660034B411 /* AccountDropDelegate.swift */; };
-		0EDC6FFA2C07D6F50034B411 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF92C07D6F50034B411 /* NotificationView.swift */; };
-		0EDC6FFC2C07F7C20034B411 /* AccountEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FFB2C07F7C20034B411 /* AccountEntry.swift */; };
+		0EDC6FED2C0581BC0034B411 /* DateFormatter+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEC2C0581BC0034B411 /* DateFormatter+helper.swift */; };
+		0EDC6FF22C0677C80034B411 /* NumberFormatter+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF12C0677C80034B411 /* NumberFormatter+helper.swift */; };
+		0EDC6FF42C0697A00034B411 /* View+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF32C0697A00034B411 /* View+helper.swift */; };
+		0EDC6FF62C06B2340034B411 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF52C06B2340034B411 /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,10 +59,22 @@
 		0E56DBBC2BFC5C320037D189 /* future_ideas.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = future_ideas.rtf; sourceTree = "<group>"; };
 		0E56DBC32BFD62D00037D189 /* Ledger.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Ledger.xcdatamodel; sourceTree = "<group>"; };
 		0E56DBC52BFDD4B40037D189 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0E5E88AA2C1AAAAD0084B85A /* NSSet+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSet+helper.swift"; sourceTree = "<group>"; };
+		0E5E88F82C2532300084B85A /* CDAccount+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDAccount+Codable.swift"; sourceTree = "<group>"; };
+		0E5E88FA2C2532610084B85A /* CDAccountEntry+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDAccountEntry+Codable.swift"; sourceTree = "<group>"; };
+		0E5E88FD2C2695D80084B85A /* Sortable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sortable.swift; sourceTree = "<group>"; };
+		0E5E89072C2744E90084B85A /* KeyEquivalent+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyEquivalent+helper.swift"; sourceTree = "<group>"; };
+		0E5E89282C2BDBB20084B85A /* CDAccount+Transferable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDAccount+Transferable.swift"; sourceTree = "<group>"; };
+		0E5E892B2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDAccountEntryDropDelegate.swift; sourceTree = "<group>"; };
+		0E5E89302C30C6220084B85A /* SidebarView+CreateAccountFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SidebarView+CreateAccountFlow.swift"; sourceTree = "<group>"; };
+		0E5E89342C30E15B0084B85A /* String+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+helper.swift"; sourceTree = "<group>"; };
+		0E5E89362C3137D40084B85A /* UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTType.swift; sourceTree = "<group>"; };
 		0E6276EC2C1115F000CC857D /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		0E6276EE2C115EB400CC857D /* ViewModel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel2.swift; sourceTree = "<group>"; };
-		0E6276F22C12374100CC857D /* FetchDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDescriptor.swift; sourceTree = "<group>"; };
-		0E6276F42C14262100CC857D /* DLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLinkedList.swift; sourceTree = "<group>"; };
+		0E6276F22C12374100CC857D /* FetchDescriptor+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FetchDescriptor+helper.swift"; sourceTree = "<group>"; };
+		0E6277562C16D0B600CC857D /* CDAccount+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDAccount+helper.swift"; sourceTree = "<group>"; };
+		0E6277582C195A2F00CC857D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0E62775B2C1960F000CC857D /* CDAccountEntry+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDAccountEntry+helper.swift"; sourceTree = "<group>"; };
 		0EBF44C62BEC51A50039CB5E /* Ledger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ledger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerApp.swift; sourceTree = "<group>"; };
 		0EBF44CB2BEC51A50039CB5E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,14 +83,13 @@
 		0EBF44D22BEC51A60039CB5E /* Ledger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ledger.entitlements; sourceTree = "<group>"; };
 		0EBF44DE2BED40190039CB5E /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		0EBF44FA2BED5B360039CB5E /* test_data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_data.plist; sourceTree = "<group>"; };
-		0EBF450A2BEDDF580039CB5E /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		0EDC6FEA2C056BCC0034B411 /* AccountTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableView.swift; sourceTree = "<group>"; };
-		0EDC6FEC2C0581BC0034B411 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		0EDC6FEC2C0581BC0034B411 /* DateFormatter+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+helper.swift"; sourceTree = "<group>"; };
 		0EDC6FEF2C06766F0034B411 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
-		0EDC6FF12C0677C80034B411 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
-		0EDC6FF32C0697A00034B411 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		0EDC6FF52C06B2340034B411 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		0EDC6FF72C079C660034B411 /* AccountDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDropDelegate.swift; sourceTree = "<group>"; };
+		0EDC6FF12C0677C80034B411 /* NumberFormatter+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+helper.swift"; sourceTree = "<group>"; };
+		0EDC6FF32C0697A00034B411 /* View+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+helper.swift"; sourceTree = "<group>"; };
+		0EDC6FF52C06B2340034B411 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		0EDC6FF72C079C660034B411 /* CDAccountDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDAccountDropDelegate.swift; sourceTree = "<group>"; };
 		0EDC6FF92C07D6F50034B411 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		0EDC6FFB2C07F7C20034B411 /* AccountEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEntry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +105,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E5E88FC2C2688580084B85A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0E6277582C195A2F00CC857D /* ViewController.swift */,
+				0EDC6FF52C06B2340034B411 /* PersistenceController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0E5E892A2C2CE9360084B85A /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				0EDC6FF72C079C660034B411 /* CDAccountDropDelegate.swift */,
+				0E5E892B2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		0E5E892F2C30C5C00084B85A /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				0E6276EC2C1115F000CC857D /* SidebarView.swift */,
+				0E5E89302C30C6220084B85A /* SidebarView+CreateAccountFlow.swift */,
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		0E6277542C16CD9000CC857D /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				0E5E88F82C2532300084B85A /* CDAccount+Codable.swift */,
+				0E5E89282C2BDBB20084B85A /* CDAccount+Transferable.swift */,
+				0E6277562C16D0B600CC857D /* CDAccount+helper.swift */,
+				0E5E88FA2C2532610084B85A /* CDAccountEntry+Codable.swift */,
+				0E62775B2C1960F000CC857D /* CDAccountEntry+helper.swift */,
+				0E5E88FD2C2695D80084B85A /* Sortable.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		0E6277552C16CDA200CC857D /* SampleTestingData */ = {
+			isa = PBXGroup;
+			children = (
+				0EBF44FA2BED5B360039CB5E /* test_data.plist */,
+				0E48B0C62BF15538009FE3C7 /* 2018-05-20-Checking.plist */,
+				0E48B0C72BF15538009FE3C7 /* 2018-05-20-CreditCard.plist */,
+			);
+			path = SampleTestingData;
+			sourceTree = "<group>";
+		};
 		0EBF44BD2BEC51A50039CB5E = {
 			isa = PBXGroup;
 			children = (
@@ -110,21 +178,18 @@
 				0E56DBC52BFDD4B40037D189 /* Info.plist */,
 				0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */,
 				0EBF44CB2BEC51A50039CB5E /* ContentView.swift */,
-				0E6276EC2C1115F000CC857D /* SidebarView.swift */,
-				0E56DBBA2BFBDB560037D189 /* ViewModel.swift */,
-				0E6276EE2C115EB400CC857D /* ViewModel2.swift */,
+				0E5E892A2C2CE9360084B85A /* Delegate */,
+				0E5E88FC2C2688580084B85A /* Controller */,
 				0EBF45092BEDC6300039CB5E /* PersistenceModel */,
 				0EDC6FEE2C0582610034B411 /* Extension */,
 				0EDC6FE92C056B200034B411 /* View */,
-				0EDC6FF72C079C660034B411 /* AccountDropDelegate.swift */,
-				0EBF450A2BEDDF580039CB5E /* Helper.swift */,
-				0EBF44FA2BED5B360039CB5E /* test_data.plist */,
-				0E48B0C62BF15538009FE3C7 /* 2018-05-20-Checking.plist */,
-				0E48B0C72BF15538009FE3C7 /* 2018-05-20-CreditCard.plist */,
-				0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */,
+				0E6277542C16CD9000CC857D /* CoreData */,
+				0E6277552C16CDA200CC857D /* SampleTestingData */,
 				0EBF44D22BEC51A60039CB5E /* Ledger.entitlements */,
-				0EDC6FF52C06B2340034B411 /* CoreDataStack.swift */,
 				0E56DBC22BFD62D00037D189 /* Ledger.xcdatamodeld */,
+				0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */,
+				0E56DBBA2BFBDB560037D189 /* ViewModel.swift */,
+				0E6276EE2C115EB400CC857D /* ViewModel2.swift */,
 				0EBF44CF2BEC51A60039CB5E /* Preview Content */,
 			);
 			path = Ledger;
@@ -142,7 +207,6 @@
 			isa = PBXGroup;
 			children = (
 				0EBF44DE2BED40190039CB5E /* Account.swift */,
-				0E6276F42C14262100CC857D /* DLinkedList.swift */,
 				0EDC6FFB2C07F7C20034B411 /* AccountEntry.swift */,
 			);
 			path = PersistenceModel;
@@ -151,6 +215,7 @@
 		0EDC6FE92C056B200034B411 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0E5E892F2C30C5C00084B85A /* Sidebar */,
 				0EDC6FEA2C056BCC0034B411 /* AccountTableView.swift */,
 				0EDC6FEF2C06766F0034B411 /* EditorView.swift */,
 				0EDC6FF92C07D6F50034B411 /* NotificationView.swift */,
@@ -161,10 +226,14 @@
 		0EDC6FEE2C0582610034B411 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				0EDC6FEC2C0581BC0034B411 /* DateFormatter.swift */,
-				0E6276F22C12374100CC857D /* FetchDescriptor.swift */,
-				0EDC6FF12C0677C80034B411 /* NumberFormatter.swift */,
-				0EDC6FF32C0697A00034B411 /* View.swift */,
+				0EDC6FEC2C0581BC0034B411 /* DateFormatter+helper.swift */,
+				0E6276F22C12374100CC857D /* FetchDescriptor+helper.swift */,
+				0E5E89072C2744E90084B85A /* KeyEquivalent+helper.swift */,
+				0E5E89362C3137D40084B85A /* UTType.swift */,
+				0E5E88AA2C1AAAAD0084B85A /* NSSet+helper.swift */,
+				0EDC6FF12C0677C80034B411 /* NumberFormatter+helper.swift */,
+				0EDC6FF32C0697A00034B411 /* View+helper.swift */,
+				0E5E89342C30E15B0084B85A /* String+helper.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -242,24 +311,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E6276F52C14262100CC857D /* DLinkedList.swift in Sources */,
-				0EDC6FF02C06766F0034B411 /* EditorView.swift in Sources */,
-				0EDC6FF62C06B2340034B411 /* CoreDataStack.swift in Sources */,
+				0E62775A2C195BCB00CC857D /* Ledger.xcdatamodeld in Sources */,
+				0E6277592C195A2F00CC857D /* ViewController.swift in Sources */,
+				0E5E89352C30E15B0084B85A /* String+helper.swift in Sources */,
+				0EDC6FF62C06B2340034B411 /* PersistenceController.swift in Sources */,
 				0E6276ED2C1115F000CC857D /* SidebarView.swift in Sources */,
-				0EDC6FF22C0677C80034B411 /* NumberFormatter.swift in Sources */,
-				0EDC6FED2C0581BC0034B411 /* DateFormatter.swift in Sources */,
-				0EBF450B2BEDDF580039CB5E /* Helper.swift in Sources */,
-				0E6276F32C12374100CC857D /* FetchDescriptor.swift in Sources */,
-				0EDC6FFC2C07F7C20034B411 /* AccountEntry.swift in Sources */,
-				0E56DBBB2BFBDB560037D189 /* ViewModel.swift in Sources */,
-				0EDC6FEB2C056BCC0034B411 /* AccountTableView.swift in Sources */,
-				0E6276EF2C115EB400CC857D /* ViewModel2.swift in Sources */,
-				0EDC6FF82C079C660034B411 /* AccountDropDelegate.swift in Sources */,
+				0E5E88FE2C2695D80084B85A /* Sortable.swift in Sources */,
+				0E5E89092C28F0480084B85A /* AccountTableView.swift in Sources */,
+				0EDC6FF22C0677C80034B411 /* NumberFormatter+helper.swift in Sources */,
+				0E5E89082C2744E90084B85A /* KeyEquivalent+helper.swift in Sources */,
+				0E5E88FB2C2532610084B85A /* CDAccountEntry+Codable.swift in Sources */,
+				0EDC6FED2C0581BC0034B411 /* DateFormatter+helper.swift in Sources */,
+				0E6276F32C12374100CC857D /* FetchDescriptor+helper.swift in Sources */,
+				0E5E88F92C2532300084B85A /* CDAccount+Codable.swift in Sources */,
+				0E5E88AB2C1AAAAD0084B85A /* NSSet+helper.swift in Sources */,
+				0E5E89382C31D4BC0084B85A /* EditorView.swift in Sources */,
 				0EBF44E32BED560E0039CB5E /* LedgerApp.swift in Sources */,
-				0EDC6FFA2C07D6F50034B411 /* NotificationView.swift in Sources */,
+				0E5E89272C2BDAB10084B85A /* CDAccountDropDelegate.swift in Sources */,
+				0E6277572C16D0B600CC857D /* CDAccount+helper.swift in Sources */,
 				0EBF44E42BED560E0039CB5E /* ContentView.swift in Sources */,
-				0EDC6FF42C0697A00034B411 /* View.swift in Sources */,
-				0EBF44DF2BED40190039CB5E /* Account.swift in Sources */,
+				0E5E89372C3137D40084B85A /* UTType.swift in Sources */,
+				0E5E89312C30C6220084B85A /* SidebarView+CreateAccountFlow.swift in Sources */,
+				0EDC6FF42C0697A00034B411 /* View+helper.swift in Sources */,
+				0E62775C2C1960F000CC857D /* CDAccountEntry+helper.swift in Sources */,
+				0E5E892C2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift in Sources */,
+				0E5E89292C2BDBB20084B85A /* CDAccount+Transferable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

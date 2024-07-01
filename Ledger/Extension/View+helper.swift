@@ -17,7 +17,7 @@ fileprivate struct EditorSectionHeaderModifier: ViewModifier {
     }
 }
 
-fileprivate struct BlurModifier: ViewModifier {
+fileprivate struct ConditionalBlurModifier: ViewModifier {
     let active: Bool
     
     public func body(content: Content) -> some View {
@@ -32,6 +32,6 @@ extension View {
     }
     
     func conditionalBlurStyle(_ active: Bool) -> some View {
-        modifier(BlurModifier(active: active))
+        modifier(ConditionalBlurModifier(active: active))
     }
 }

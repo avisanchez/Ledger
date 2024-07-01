@@ -10,22 +10,22 @@ import SwiftData
 
 @main
 struct LedgerApp: App {
-    private let container: ModelContainer
-        
-    var body: some Scene {
-        WindowGroup {
-            ContentView(modelContext: container.mainContext)
-        }
-        .modelContainer(container)
-        
-    }
+    // Contains the managedObjectContext
+    @State private var viewController = ViewController(viewContext: PersistenceController.sharedViewContext)
     
-    init() {
-        do {
-            self.container = try ModelContainer(for: Account.self, AccountEntry.self)
-            print(URL.applicationSupportDirectory.path(percentEncoded: false))
-        } catch {
-            fatalError("Failed to create ModelContainer for Account, AccountEntry: \(error.localizedDescription)")
+    var body: some Scene {
+        
+        WindowGroup {
+            ContentView()
+                .environment(\.managedObjectContext, PersistenceController.sharedViewContext)
+                .environment(viewController)
+                .onAppear {
+                    // -- DEBUG
+                    print(URL.applicationSupportDirectory.path(percentEncoded: false))
+                    //print(PersistenceController.sharedViewContext.registeredObjects)
+                }
         }
+        
+        
     }
 }

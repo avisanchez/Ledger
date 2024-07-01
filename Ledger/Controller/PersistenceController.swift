@@ -1,16 +1,11 @@
-//
-//  CoreDataStack.swift
-//  Ledger
-//
-//  Created by Avi Sanchez on 5/28/24.
-//
-
 import CoreData
 import Foundation
 
 // Define an observable class to encapsulate all Core Data-related functionality.
-class CoreDataStack: ObservableObject {
-    static let shared = CoreDataStack()
+class PersistenceController: ObservableObject {
+    static let shared = PersistenceController()
+    
+    static let sharedViewContext: NSManagedObjectContext = shared.persistentContainer.viewContext
     
     // Create a persistent container as a lazy variable to defer instantiation until its first use.
     lazy var persistentContainer: NSPersistentContainer = {
