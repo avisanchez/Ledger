@@ -16,80 +16,51 @@ struct ContentView: View {
     
     @State private var isBlurred: Bool = false
     @State private var searchTerm: String = ""
-    @State private var scrolledID: CDAccountEntry.ID?
     @State private var useRoundedTotals: Bool = false
-    
+        
+    @Binding var selectedAccount: CDAccount?
+    @Binding var selectedEntry: CDAccountEntry?
+        
     var body: some View {
         
         NavigationSplitView {
-            SidebarView()
+            SidebarView(selectedAccount: $selectedAccount)
         } detail: {
-            
             VStack {
                 ScrollViewReader { proxy in
                     ZStack(alignment: .bottomTrailing) {
                         
-                        AccountTableView(account: viewController.selectedAccount)
-                            .onChange(of: viewController.selectedEntry) { oldValue, newValue in
-                                guard let newValue else { return }
-                                //proxy.scrollTo(newValue.id, anchor: .center)
-                            }
-                        
-                        HStack {
-                            jumpToTopButton(proxy)
-                            
-                            jumpToBottomButton(proxy)
+                        VStack {
+                            Text("DEBUG")
+                            Text("selected entry: \(selectedEntry?.uuid), \(selectedEntry?.sortOrder)")
+                            Text("selected account: \(selectedAccount?.name)")
+                            TableViewControllerRepresentable(selectedAccount: $selectedAccount,
+                                                             selectedEntry: $selectedEntry,
+                                                             useRoundedTotals: $useRoundedTotals)
                         }
+                       
+                        
+                        
+//                        HStack {
+//                            jumpToTopButton(proxy)
+//                            
+//                            jumpToBottomButton(proxy)
+//                        }
                         
                     }
                     
-                    
-                    EditorView(viewController.selectedEntry)
+                    EditorView($selectedEntry)
                 }
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                //                ScrollViewReader { proxy in
-                //                    AccountTableView(selectedAccount: viewModel2.selectedAccount,
-                //                                     isBlurred: $isBlurred)
-                //                        .conditionalBlurStyle(isBlurred)
-                //                        .disabled(isBlurred)
-                ////
-                ////                        .onAppear {
-                ////                            guard let lastEntry = viewModel.accountEntries.last else { return }
-                ////                            proxy.scrollTo(lastEntry.id)
-                ////                        }
-                ////                        .onSubmit(of: .search) {
-                ////                            guard let id = viewModel.searchFor(searchTerm) else { return }
-                ////
-                ////                            viewModel.selected = [id]
-                ////                            proxy.scrollTo(id, anchor: .center)
-                ////                        }
-                //                }
-                
-                //                EditorView(selected: $selected)
-                //                    .conditionalBlurStyle(isBlurred)
-                //                    .allowsHitTesting(!isBlurred)
                 
             }
         }
+//        .onChange(of: selectedAccount) { oldValue, newValue in
+//            print("selected account changed")
+//        }
         .searchable(text: $searchTerm, prompt: "Search notes")
-        .navigationTitle("\(viewController.selectedAccount?.name ?? "")")
-        .onChange(of: viewController.selectedAccount?.name, { oldValue, newValue in
-            print("account changed")
-        })
-        //.onDrop(of: AccountDropDelegate.allowedTypes, delegate: AccountDropDelegate())
+        .navigationTitle(viewController.selectedAccount?.name ?? "")
         .fileImporter(isPresented: $isBlurred, allowedContentTypes: [.data], allowsMultipleSelection: false) { result in
+
             switch result {
             case .success(let files):
                 files.forEach { file in
@@ -98,20 +69,25 @@ struct ContentView: View {
                     if !gotAccess { return }
                     // access the directory URL
                     // (read templates in the directory, make a bookmark, etc.)
+
+                    
                     do {
-                        let newAccount = try CDAccount.load(moc: viewController.viewContext, from: file, type: .propertyList)
+                        let newAccount = try CDAccount.load(from: file,
+                                                            savingTo: viewController.viewContext)
                         viewController.selectedAccount = newAccount
                     } catch {
-                        fatalError("failed to read .mcb file as .plist: \(error)")
+                        fatalError("\(error)")
                     }
+                    
                     
                     // release access
                     file.stopAccessingSecurityScopedResource()
                 }
             case .failure(let error):
                 // handle error
-                print(error)
+                fatalError("\(error)")
             }
+
             
         }
         .toolbar {
@@ -124,8 +100,8 @@ struct ContentView: View {
             undoButton
             
             redoButton
+            
         }
-        
     }
     
 }
@@ -135,8 +111,8 @@ extension ContentView {
     func jumpToTopButton(_ proxy: ScrollViewProxy) -> some View {
         Button {
             guard let firstEntry = viewController.selectedAccount?.firstEntry else { return }
+            proxy.scrollTo(firstEntry.id, anchor: .top)
             viewController.selectedEntry = firstEntry
-            proxy.scrollTo(firstEntry.id, anchor: .center)
         } label: {
             Image(systemName: "arrow.up")
                 .padding()
@@ -149,8 +125,8 @@ extension ContentView {
     func jumpToBottomButton(_ proxy: ScrollViewProxy) -> some View {
         Button {
             guard let lastEntry = viewController.selectedAccount?.lastEntry else { return }
+            proxy.scrollTo(lastEntry.id, anchor: .bottom)
             viewController.selectedEntry = lastEntry
-            proxy.scrollTo(lastEntry.id, anchor: .center)
         } label: {
             Image(systemName: "arrow.down")
                 .padding()
@@ -171,9 +147,9 @@ extension ContentView {
     
     var createEntryButton: some View {
         Button {
-            if viewController.selectedAccount != nil {
-                viewController.createEntry(for: viewController.selectedAccount!)
-            }
+            guard let selectedAccount else { return }
+            
+            viewController.createEntry(for: selectedAccount)
         } label: {
             Image(systemName: "plus")
         }
@@ -205,5 +181,14 @@ extension ContentView {
             Image(systemName: "arrow.uturn.forward")
         }
         .help("Redo")
+    }
+    
+    func createEntry() {
+        guard let selectedAccount, let selectedEntry else {
+            print(#function, "selectedAccount or selectedEntry is nil")
+            return
+        }
+        
+        
     }
 }

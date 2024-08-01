@@ -16,7 +16,7 @@ protocol Sortable {
         get
         set
     }
-    var sortOrder: Double {
+    var sortOrder: Int {
         get
         set
     }

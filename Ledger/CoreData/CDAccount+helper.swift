@@ -4,36 +4,41 @@ import UniformTypeIdentifiers
 
 extension CDAccount {
     
-//    func fetch(predicate: NSPredicate? = nil,
-//               sortDescriptors: [NSSortDescriptor]? = nil) throws -> [CDAccount] {
-//        let request = Self.fetchRequest()
-//        request.predicate = predicate
-//        request.sortDescriptors = sortDescriptors
-//        
-//        guard let managedObjectContext else { return [] }
-//        
-//        return try managedObjectContext.fetch(request)
-//    }
-    
-    var sortedEntries: [CDAccountEntry] {
-        entries?.sortedArray(using: [NSSortDescriptor(key: "sortOrder", ascending: true)]) as? [CDAccountEntry] ?? []
+    var entries: [CDAccountEntry] {
+        get { entries_?.sortedArray(using: [.sortOrder]) as? [CDAccountEntry] ?? [] }
+        set { entries_ = NSSet(array: newValue) }
     }
     
     var firstEntry: CDAccountEntry? {
-        sortedEntries.first
+        entries.first
     }
     
     var lastEntry: CDAccountEntry? {
-        sortedEntries.last
+        entries.last
     }
     
-    public static func load(moc: NSManagedObjectContext, from url: URL, type: UTType) throws -> CDAccount {
+    var uuid: UUID {
+        get { self.uuid_ ?? UUID() }
+        set { self.uuid_ = newValue }
+    }
+    
+    var name: String {
+        get { self.name_ ?? "" }
+        set { self.name_ = newValue }
+    }
+    
+    var date: Date {
+        get { self.date_ ?? Date() }
+        set { self.date_ = newValue }
+    }
+    
+    public static func load(from url: URL, savingTo moc: NSManagedObjectContext) throws -> CDAccount {
         guard let data = try? Data(contentsOf: url) else {
             fatalError("Failed to read data from url")
         }
         
-        
-        switch type {
+        let fileType = UTType(filenameExtension: url.pathExtension)
+        switch fileType {
         case .json:
             let jsonDecoder = JSONDecoder()
             jsonDecoder.userInfo[CodingUserInfoKey.managedObjectContext!] = moc
@@ -43,7 +48,7 @@ extension CDAccount {
             plistDecoder.userInfo[CodingUserInfoKey.managedObjectContext!] = moc
             return try plistDecoder.decode(CDAccount.self, from: data)
         default:
-            fatalError("\(type) not supported")
+            fatalError("\(fileType) not supported")
         }
     }
     
@@ -62,7 +67,13 @@ extension CDAccount {
         }
     }
     
+    convenience init(context: NSManagedObjectContext, name: String) {
+        self.init(context: context)
+        self.name = name
+    }
+    
     public override func awakeFromInsert() {
         self.uuid = UUID()
+        self.date = Date()
     }
 }

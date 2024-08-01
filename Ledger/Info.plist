@@ -23,12 +23,16 @@
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.public.data</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string></string>
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>mcb</string>
+			<string>name.avisanchez.accountEntry</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>

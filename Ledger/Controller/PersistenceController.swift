@@ -5,11 +5,10 @@ import Foundation
 class PersistenceController: ObservableObject {
     static let shared = PersistenceController()
     
-    static let sharedViewContext: NSManagedObjectContext = shared.persistentContainer.viewContext
+    static let managedObjectContext: NSManagedObjectContext = shared.persistentContainer.viewContext
     
     // Create a persistent container as a lazy variable to defer instantiation until its first use.
     lazy var persistentContainer: NSPersistentContainer = {
-        
         // Pass the data model filename to the container’s initializer.
         let container = NSPersistentContainer(name: "Ledger")
         
@@ -22,7 +21,6 @@ class PersistenceController: ObservableObject {
         
         return container
     }()
-    
     
     private init() { }
 }

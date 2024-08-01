@@ -4,12 +4,12 @@ import UniformTypeIdentifiers
 import SwiftUI
 
 final class CDAccountEntry: NSManagedObject, Codable, Sortable, Transferable {
-    
+
     static var transferRepresentation: some TransferRepresentation {
-        return CodableRepresentation(for: self, contentType: .json)
+        CodableRepresentation(contentType: .json)
     }
     
-    public required convenience init(from decoder: any Decoder) throws {
+    required convenience init(from decoder: any Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext!] as? NSManagedObjectContext else {
             fatalError("Failed to establish context for CDAccount")
         }
@@ -25,7 +25,7 @@ final class CDAccountEntry: NSManagedObject, Codable, Sortable, Transferable {
         self.debitAmount = Double(try container.decode(String.self, forKey: .debitAmount)) ?? 0.0
         self.creditAmount = Double(try container.decode(String.self, forKey: .creditAmount)) ?? 0.0
         self.posted = (try? container.decode(Bool.self, forKey: .posted)) ?? false
-        self.sortOrder = try container.decodeIfPresent(Double.self, forKey: .sortOrder) ?? 0.0
+        self.sortOrder = try container.decodeIfPresent(Int.self, forKey: .sortOrder) ?? 0
         self.owner = try container.decodeIfPresent(CDAccount.self, forKey: .owner)
         self.next = try container.decodeIfPresent(CDAccountEntry.self, forKey: .next)
         self.previous = try container.decodeIfPresent(CDAccountEntry.self, forKey: .previous)
@@ -46,7 +46,7 @@ final class CDAccountEntry: NSManagedObject, Codable, Sortable, Transferable {
         try container.encode(previous, forKey: .previous)
     }
     
-    private enum CodingKeys: CodingKey {
+    private enum CodingKeys: String, CodingKey {
         // Attributes
         case uuid
         case date
@@ -54,7 +54,7 @@ final class CDAccountEntry: NSManagedObject, Codable, Sortable, Transferable {
         case debitAmount
         case creditAmount
         case posted
-        case sortOrder
+        case sortOrder = "sortOrder_"
        
         
         // Relationships

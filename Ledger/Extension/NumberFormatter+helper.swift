@@ -12,4 +12,9 @@ extension NumberFormatter {
         self.init()
         self.numberStyle = numberStyle
     }
+    
+    convenience init(currencyCode: String) {
+        self.init(numberStyle: .currency)
+        self.currencyCode = currencyCode
+    }
 }

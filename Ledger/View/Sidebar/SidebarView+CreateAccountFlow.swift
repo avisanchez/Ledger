@@ -47,7 +47,7 @@ extension SidebarView {
                     }
                     
                     Button("Create") {
-                        createAccountAndDismiss()
+                        _createAccountAndDismiss()
                     }
                     .modifier(VariableButtonStyle(primaryStyle: .automatic,
                                                   secondaryStyle: .borderedProminent,
@@ -59,18 +59,17 @@ extension SidebarView {
             .padding()
             .frame(width: 300, height: 150)
             .onKeyPress(.return) {
-                createAccountAndDismiss()
+                _createAccountAndDismiss()
                 return .handled
             }
             
         }
         
-        private func createAccountAndDismiss() {
+        private func _createAccountAndDismiss() {
             guard !newAccountName.isEmptyOrWhitespace else { return }
             
-            viewController.createAccount(withName: newAccountName.stripped,
-                                         startingBalance: startingBalance)
-            viewController.createFirstAccountEntry(for: viewController.selectedAccount!, startingBalance: startingBalance)
+            viewController.createAccount(name: newAccountName.stripped,
+                                         startingBalance: startingBalance != 0 ? startingBalance : nil)
             dismiss.callAsFunction()
         }
     }
@@ -93,3 +92,5 @@ fileprivate struct VariableButtonStyle<PrimaryStyle: PrimitiveButtonStyle, Secon
         }
     }
 }
+
+

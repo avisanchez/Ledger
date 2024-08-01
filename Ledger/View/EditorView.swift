@@ -10,31 +10,21 @@ import SwiftUI
 import SwiftData
 
 struct EditorView: View {
-    @Environment(ViewController.self)
-    private var viewController
-        
-    @State private var editableDate: Date
-    @State private var editableNotes: String
-    @State private var editableCreditAmount: Double
-    @State private var editableDebitAmount: Double
     
-    init(_ entry: CDAccountEntry?) {
-        self._editableDate = State(initialValue: entry?.date ?? Date())
-        self._editableNotes = State(initialValue: entry?.notes ?? "")
-        self._editableDebitAmount = State(initialValue: entry?.debitAmount ?? 0.0)
-        self._editableCreditAmount = State(initialValue: entry?.creditAmount ?? 0.0)
-        
-        print("\(editableDate), \(editableNotes), \(editableDebitAmount), \(editableCreditAmount)")
+    @Binding var entry: CDAccountEntry?
+    @State private var proxyEntry: ProxyAccountEntry = ProxyAccountEntry()
+    
+    init(_ entry: Binding<CDAccountEntry?>) {
+        self._entry = entry
     }
             
     var body: some View {
-        let _ = print("\(editableDate), \(editableNotes), \(editableDebitAmount), \(editableCreditAmount)")
         
         HStack {
             VStack(alignment: .leading) {
                 Text("Date")
                     .editorSectionHeaderStyle()
-                TextField("Enter Date", value: $editableDate,
+                TextField("Enter Date", value: $proxyEntry.date,
                           formatter: DateFormatter(dateFormat: "MM/dd"))
             }
 
@@ -42,42 +32,23 @@ struct EditorView: View {
             VStack(alignment: .leading) {
                 Text("Details")
                     .editorSectionHeaderStyle()
-                TextField("Enter Details", text: $editableNotes)
+                TextField("Enter Details", text: $proxyEntry.notes)
             }
 
             VStack(alignment: .leading) {
                 Text("Debit Amount")
                     .editorSectionHeaderStyle()
-                TextField("Enter Debit Amount", value: $editableDebitAmount,
+                TextField("Enter Debit Amount", value: $proxyEntry.debitAmount,
                           formatter: NumberFormatter(numberStyle: .decimal))
             }
 
             VStack(alignment: .leading) {
                 Text("Credit Amount")
                     .editorSectionHeaderStyle()
-
-                TextField("Enter Credit Amount", value: $editableCreditAmount,
+                
+                TextField("Enter Credit Amount", value: $proxyEntry.creditAmount,
                           formatter: NumberFormatter(numberStyle: .decimal))
             }
-
-
-            VStack(spacing: 10) {
-                Button {
-                } label: {
-                    
-                    Image(systemName: "arrow.up")
-                }
-
-
-                Button {
-                    
-                } label: {
-                    Image(systemName: "arrow.down")
-                }
-
-            }
-            .buttonStyle(.plain)
-            .bold()
 
         }
         .frame(maxWidth: .infinity)
@@ -85,11 +56,24 @@ struct EditorView: View {
         .padding()
         .background(in: RoundedRectangle(cornerRadius: 10))
         .padding()
-        .onChange(of: viewController.selectedEntry) { oldValue, newValue in
-            // save old values
-            
-            // update new values
+        .onChange(of: entry) { oldValue, newValue in
+            print("DEBUG: subview entry changed")
         }
+    }
+    
+    private struct ProxyAccountEntry {
+        var date: Date
+        var notes: String
+        var debitAmount: Double
+        var creditAmount: Double
+        var posted: Bool
         
+        init(date: Date = Date(), notes: String = "", debitAmount: Double = 0, creditAmount: Double = 0, posted: Bool = false) {
+            self.date = date
+            self.notes = notes
+            self.debitAmount = debitAmount
+            self.creditAmount = creditAmount
+            self.posted = posted
+        }
     }
 }

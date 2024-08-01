@@ -1,61 +1,43 @@
 import Foundation
 import CoreData
+import UniformTypeIdentifiers
 
 extension CDAccountEntry {
     
     static var useRoundedTotals: Bool = false
     
     var date: Date {
-        get {
-            self.date_ ?? Date()
-        }
-        set {
-            self.date_  = newValue
-        }
+        get { self.date_ ?? Date() }
+        set { self.date_ = newValue }
     }
     
     var notes: String {
-        get {
-            self.notes_ ?? ""
-        }
-        set {
-            self.notes_ = newValue
-        }
+        get { self.notes_ ?? "" }
+        set { self.notes_ = newValue }
     }
     
     var uuid: UUID {
-        get {
-            self.uuid_ ?? UUID()
-        }
-        set {
-            self.uuid_ = newValue
-        }
+        get { self.uuid_ ?? UUID() }
+        set { self.uuid_ = newValue }
     }
     
-    var id: UUID {
-        uuid
-    }
-    
-    var runningTotal: Double {
-        let previousTotal: Double = previous?.runningTotal ?? 0
-        
-        if Self.useRoundedTotals {
-            return previousTotal + debitAmount.rounded(.up) - creditAmount.rounded(.down)
-        }
-        return previousTotal + debitAmount - creditAmount
-    }
+    // neccessary to conform to Identifiable
+    var id: UUID { self.uuid }
     
     var formattedDate: String {
-        return DateFormatter.format(date, using: "dd/MM")
+        DateFormatter.format(date, using: "dd/MM")
     }
     
-    var testSortOrder: Double {
-        guard let previous else { return 0 }
-
-        return previous.testSortOrder + 1
+    var sortOrder: Int {
+        get { Int(self.sortOrder_) }
+        set { self.sortOrder_ = Int64(newValue) }
     }
     
-    public convenience init(context: NSManagedObjectContext,
+    var isFirst: Bool { self.previous == nil }
+    
+    var isLast: Bool { self.next == nil }
+    
+    convenience init(context: NSManagedObjectContext,
                             owner: CDAccount,
                             notes: String = "",
                             debitAmount: Double = 0.0,
@@ -68,10 +50,10 @@ extension CDAccountEntry {
         self.creditAmount = creditAmount
         self.posted = posted
     }
+    
+    // -- Overridden Functions
 
-    
-    
-    public override func awakeFromInsert() {
+    override func awakeFromInsert() {
         self.uuid = UUID()
         self.date = Date()
     }

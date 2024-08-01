@@ -20,54 +20,23 @@ class ViewController {
     
     // -- Observed/Tracked
     var selectedAccount: CDAccount?
+    
     var selectedEntry: CDAccountEntry?
     
-    var useRoundedTotals: Bool {
-        didSet {
-            guard let selectedAccount else { return }
-            // TODO: Implement rounding totals
-        }
-    }
-    
-    // -- Computed
-    var firstAccount: CDAccount? {
-        return get(CDAccount.self, at: 0)
-    }
     
     init(viewContext: NSManagedObjectContext) {
         self.viewContext = viewContext
-        self.useRoundedTotals = false
-        self.selectedAccount = firstAccount
-
+        
         viewContext.undoManager = UndoManager()
     }
     
     
-    func createAccount(withName name: String, startingBalance: Double? = nil) {
+    func createAccount(name: String, startingBalance: Double? = nil) {
         
-        let newAccount = CDAccount(context: viewContext)
-        newAccount.name = name
-        
-        if let selectedAccount {
-            newAccount.sortOrder = _calculateSortOrder(insertingAfter: selectedAccount)
-            
-            /*
-             Order here (and later in the code) matters!
-             
-             DON'T DO THE FOLLOWING
-             _link(selectedAccount, newAccount)
-             _link(newAccount, selectedAccount.next)
-             
-             The above statement fails because selectedAccount.next will point to newAccount, in turn linking newAccount to itself
-             */
-            _link(newAccount, selectedAccount.next)
-            _link(selectedAccount, newAccount)
-        } else {
-            newAccount.sortOrder = 0
-        }
+        let newAccount = CDAccount(context: viewContext, name: name)
         
         if let startingBalance {
-            createEntry(for: newAccount)
+            createEntry(for: newAccount, startingBalance: startingBalance)
         }
         
         save()
@@ -81,10 +50,8 @@ class ViewController {
         let newEntry = CDAccountEntry(context: viewContext, owner: account)
         
         if let selectedEntry {
-            newEntry.sortOrder = _calculateSortOrder(insertingAfter: selectedEntry)
-            
             /*
-             Order here (and later in the code) matters!
+             Order here matters!
              
              DON'T DO THE FOLLOWING
              _link(selectedAccount, newAccount)
@@ -92,31 +59,99 @@ class ViewController {
              
              The above statement fails because selectedAccount.next will point to newAccount, in turn linking newAccount to itself
              */
+            
             _link(newEntry, selectedEntry.next)
             _link(selectedEntry, newEntry)
-        } else {
-            newEntry.sortOrder = 0
         }
         
+        calculateSortOrder(for: newEntry)
+
         save()
         
         return newEntry
-        //selectedEntry = newEntry
     }
     
-    func createFirstAccountEntry(for account: CDAccount, startingBalance: Double) {
-        let newAccount = createEntry(for: account)
-        newAccount.notes = "STARTING_BALANCE"
-        if startingBalance > 0 {
-            newAccount.debitAmount = abs(startingBalance)
+    func calculateSortOrder(for current: CDAccountEntry) {
+        
+        // check if this is the first entry
+        guard let previous = current.previous else {
+            if let next = current.next, next.sortOrder == 0 {
+                _pushForward(next)
+            }
+            
+            current.sortOrder = 0
+            return
+        }
+        
+        // check if this is the last entry
+        guard let next = current.next else {
+            current.sortOrder = previous.sortOrder + Constants.sortOrderSpacing
+            return
+        }
+        
+        
+        current.sortOrder = _average(previous.sortOrder, next.sortOrder)
+        
+        if previous.sortOrder == current.sortOrder {
+            current.sortOrder = _average(previous.sortOrder, _pushForward(next))
+        }
+    }
+    
+    @discardableResult
+    func _pushForward(_ current: CDAccountEntry) -> Int {
+        
+        guard let next = current.next else {
+            current.sortOrder += Constants.sortOrderSpacing
+            return current.sortOrder
+        }
+                
+        if _adjacent(current, next) {
+            current.sortOrder = _average(current.sortOrder, _pushForward(next))
         } else {
-            newAccount.creditAmount = abs(startingBalance)
+            current.sortOrder = _average(current.sortOrder, next.sortOrder)
+        }
+        
+        return current.sortOrder
+    }
+    
+    
+    // this may not work - just out of curiosity
+    @discardableResult
+    private func _push(_ current: CDAccountEntry, _ direction: PushDirection = .forward) -> Int {
+        guard let other = (direction == .forward) ? current.next : current.previous else {
+            current.sortOrder += direction == .forward ? +4 : -4
+            return current.sortOrder
+        }
+        
+        if _adjacent(current, other) {
+            current.sortOrder = _average(current.sortOrder, _push(other, direction))
+        } else {
+            current.sortOrder = _average(current.sortOrder, other.sortOrder)
+        }
+
+        return current.sortOrder
+    }
+    
+    private enum PushDirection {
+        case forward
+        case backward
+    }
+    
+    
+    func createEntry(for account: CDAccount, startingBalance: Double) {
+        let newEntry = createEntry(for: account)
+        newEntry.notes = "STARTING_BALANCE"
+        if startingBalance > 0 {
+            newEntry.debitAmount = abs(startingBalance)
+        } else {
+            newEntry.creditAmount = abs(startingBalance)
         }
     }
     
     
     func delete(_ account: CDAccount) {
-        if selectedAccount == account { selectedAccount = account.previous }
+        selectedAccount = nil
+        selectedEntry = nil
         _delete(account)
     }
     
@@ -126,16 +161,10 @@ class ViewController {
         _delete(entry)
     }
     
-    
-    func updateRoundedTotals(for account: CDAccount) {
-        //account.updateRunningTotals(useRoundedTotals)
-    }
-    
-    
     func get<T: NSManagedObject & Sortable>(_ type: T.Type, at indicies: Int...) -> [T]? {
         let request = T.fetchRequest()
         
-        request.sortDescriptors = [NSSortDescriptor(key: "sortOrder", ascending: true)]
+        request.sortDescriptors = [.sortOrder]
         
         do {
             guard let fetchedObjects = try viewContext.fetch(request) as? [T] else {
@@ -189,19 +218,9 @@ class ViewController {
         
         // Insert item into linked list
         if moveForward {
-            itemToMove.sortOrder = _calculateSortOrder(insertingAfter: itemToInsertAt)
             _link(itemToMove, itemToInsertAt.next)
             _link(itemToInsertAt, itemToMove)
         } else {
-            if endIndex == 0 {
-                if itemToInsertAt.sortOrder == 0 {
-                    _offsetSubsequentItems(startingFrom: itemToInsertAt)
-                }
-                
-                itemToMove.sortOrder = 0
-            } else {
-                itemToMove.sortOrder = _calculateSortOrder(insertingAfter: itemToInsertAt.previous!)
-            }
             _link(itemToInsertAt.previous, itemToMove)
             _link(itemToMove, itemToInsertAt)
         }
@@ -213,15 +232,16 @@ class ViewController {
         try viewContext.fetch(request)
     }
     
-    
-    func save() {
-        guard viewContext.hasChanges else { return }
+    @discardableResult
+    func save() -> Bool {
+        guard viewContext.hasChanges else { return false }
         
         do {
             try viewContext.save()
-            print("DEBUG: Save successful")
+            return true
         } catch {
             fatalError("DEBUG: Save failed: \(error.localizedDescription)")
+            return false
         }
     }
     
@@ -240,29 +260,15 @@ class ViewController {
     
     // -- PRIVATE METHODS --
     
-    private func _calculateSortOrder<T: Sortable>(insertingAfter item: T) -> Double {
-        let TOL = 1e-5
-        
-        var sortOrder: Double
-        
-        if let nextItem = item.next {
-            sortOrder = (item.sortOrder + nextItem.sortOrder) / 2
-            
-            if abs(sortOrder - nextItem.sortOrder) < TOL {
-                _offsetSubsequentItems(startingFrom: nextItem)
-                return _calculateSortOrder(insertingAfter: item)
-            }
-        } else {
-            sortOrder = item.sortOrder + 1
-        }
-        
-        return sortOrder
+    private func _delete(_ account: CDAccount) {
+        viewContext.delete(account)
+        save()
     }
     
     
-    private func _delete<T: NSManagedObject & Sortable>(_ object: T) {
-        _link(object.previous, object.next)
-        viewContext.delete(object)
+    private func _delete(_ entry: CDAccountEntry) {
+        _link(entry.previous, entry.next)
+        viewContext.delete(entry)
         save()
     }
     
@@ -275,19 +281,13 @@ class ViewController {
         }
     }
     
-    
-    private func _offsetSubsequentItems<T: Sortable>(by offset: Double = 1, startingFrom item: T) {
-        var current: T? = item
-        
-        while current != nil {
-            current?.sortOrder += offset
-            current = current?.next
-        }
-    }
-    
-    
     // -- DEBUG --
     func printRegisteredObjects() {
         print(viewContext.registeredObjects)
+    }
+    
+    private let _average: (Int, Int) -> Int = { ($0 + $1) / 2 }
+    private let _adjacent: (_ a: CDAccountEntry, _ b: CDAccountEntry) -> Bool = {
+        abs($0.sortOrder - $1.sortOrder) == 1
     }
 }

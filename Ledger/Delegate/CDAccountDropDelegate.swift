@@ -7,29 +7,31 @@
 
 import SwiftUI
 import Foundation
-import UniformTypeIdentifiers
 
-struct CDAccountDropDelegate: DropDelegate {
+struct AccountDropDelegate: DropDelegate {
+    
+    let account: CDAccount
+    @Binding var accounts: [CDAccount]
+    @Binding var draggedAccount: CDAccount?
+
+    
     
     func dropUpdated(info: DropInfo) -> DropProposal? {
-        return .none
+        guard let draggedAccount else { return nil }
+        
+        if draggedAccount != account {
+            guard let from = accounts.firstIndex(of: draggedAccount) else { return nil }
+            guard let to = accounts.firstIndex(of: account) else { return nil }
+            withAnimation {
+                accounts.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
+            }
+        }
+        
+        return DropProposal(operation: .move)
     }
+
     
     func performDrop(info: DropInfo) -> Bool {
-        print("performing drop")
-//        let items = info.itemProviders(for: [.propertyList])
-//        
-//        for item in items {
-//            item.loadItem(forTypeIdentifier: UTType.propertyList.identifier) {filePath, error in
-//                guard let filePath = filePath as? URL else { 
-//                    fatalError("Failed to cast item as URL")
-//                }
-//                do {
-//                } catch {
-//                    print("Failed to create account: \(error)")
-//                }
-//            }
-//        }
         return true
     }
     
