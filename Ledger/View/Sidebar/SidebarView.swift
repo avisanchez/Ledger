@@ -23,7 +23,7 @@ struct SidebarView: View {
     @State var isPresentingCreationSheet: Bool = false
     @State var accountToDelete: CDAccount?
     
-    
+
     @Binding var selectedAccount: CDAccount?
     
     init(selectedAccount: Binding<CDAccount?>) {
@@ -38,10 +38,17 @@ struct SidebarView: View {
     var body: some View {
         
         VStack {
+//            Text("view isFocused: \(isFocused)")
             // -- List of accounts
             List(selection: $selectedAccount) {
                 Section("My Accounts") {
                     ForEach(accounts, id: \.self) { account in
+//                        BindingTextField("", 
+//                                         keyPath: \CDAccount.name,
+//                                         format: MyEmptyFormatStyle(), 
+//                                         saveChangesOnCommit: true)
+//                        .environmentObject(account)
+                        
                         SidebarListRowView(for: account,
                                            isSelected: account == selectedAccount,
                                            isEditable: isEditing)
@@ -93,20 +100,20 @@ struct SidebarView: View {
             .foregroundColor(.accentColor)
             .padding()
             .frame(maxWidth: .infinity, alignment: .center)
-            .keyboardShortcut(KeyEquivalent("a"), modifiers: .command)
+            .keyboardShortcut(.create)
             .disabled(isEditing)
-            
-            Button("Print Registered Objects") {
-                viewController.printRegisteredObjects()
-            }
-            .padding(.bottom)
+            .background(.blue.opacity(0.1))
+  
+//            Button("Print Registered Objects") {
+//                viewController.printRegisteredObjects()
+//            }
+//            .padding(.bottom)
         }
         
         // -- Detect delete shortcut
         .onKeyPress(.delete) {
-            if let selectedAccount {
-                _initiateDeleteSequence(for: selectedAccount)
-            }
+            guard let selectedAccount else { return .handled }
+            _initiateDeleteSequence(for: selectedAccount)
             return .handled
         }
         // -- Confirm account deletion
@@ -131,6 +138,8 @@ struct SidebarView: View {
     }
 
     func _initiateDeleteSequence(for account: CDAccount) {
+        guard account != .placeholder else { return }
+        
         self.accountToDelete = account
         self.isPresentingDeletionAlert.toggle()
     }

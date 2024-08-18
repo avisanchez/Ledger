@@ -11,5 +11,7 @@ final class Constants {
     // This spacing allows for log2(sortOrderSpacing) consecutive insertions before additional entries need to be reordered
     static let sortOrderSpacing: Int = 32
     
+    static let dateFormat: String = "MM/dd"
+    
     private init() {}
 }

@@ -7,128 +7,160 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AEAD0107-62E9-421A-BF25-23CC1EE7E0E0"
+            uuid = "D498BC24-D554-4E97-8EA7-47E4862F9DF4"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Ledger/TableView/TableViewController.swift"
+            filePath = "Ledger/TableView/TableViewControllerRepresentable.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
-            landmarkName = "controller(_:didChange:at:for:newIndexPath:)"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "updateNSViewController(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D77E3841-FE1C-4F8C-A9FA-C9410F9AE141"
+            uuid = "3C3D3A1C-1C76-4C54-9C49-036E82835765"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Ledger/TableView/TableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "controllerDidChangeContent(_:)"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "39FB6877-AB63-4B88-959A-BD22D90D5C8D"
+            uuid = "2804AA85-857F-4A0D-B206-069F48D42CA2"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Ledger/TableView/TableViewController.swift"
+            filePath = "Ledger/CoreData/CDController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "controllerWillChangeContent(_:)"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "createEntry(for:above:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F7201219-BE48-43F6-B4C3-43934A139608"
+            uuid = "4F999DDA-7141-4015-B4D6-9E1A41962FD9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Ledger/TableView/TableViewController.swift"
+            filePath = "Ledger/CoreData/CDController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "tableViewSelectionDidChange(_:)"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "createEntry(for:above:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "95A59CBC-8A27-4F17-A7D2-9C4E89915B38"
+            uuid = "06D198F2-1B46-44AB-A54A-9B75C65943A0"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Ledger/TableView/TableViewController.swift"
+            filePath = "Ledger/Controller/CoreDataController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
-            landmarkName = "controller(_:didChange:at:for:newIndexPath:)"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "createEntry(for:below:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0944B121-24AF-49D5-86C2-9A6EFDC5DF80"
+            uuid = "E191E8AF-699B-4F4B-89D2-3DD199295D0B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Ledger/TableView/TableViewController.swift"
+            filePath = "Ledger/Controller/CoreDataController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "tableView(_:acceptDrop:row:dropOperation:)"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "createEntry(for:above:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7C6A91BF-CFEB-4737-A690-AFB247F16D95"
+            uuid = "47838F30-EE4E-4671-A669-F20A9492BA93"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Ledger/TableView/TableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "updateRunningTotals(from:)"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "jump(to:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A245777F-0D7D-4A55-8480-830DF94248F3"
+            uuid = "C962E262-4090-4DA3-836A-37065D1F1020"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Ledger/TableView/TableViewController.swift"
+            filePath = "Ledger/View/EditorView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "tableView(_:acceptDrop:row:dropOperation:)"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "18F17BB7-C9D2-49C2-8DC7-6575B629607E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Ledger/CoreData/CDAccountEntry+helper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "notes"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9CBA7A00-EE47-42EB-8301-B3F01E75C5F2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Ledger/Controller/CDController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "delete(_:useRoundedTotals:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -5,16 +5,23 @@ import UniformTypeIdentifiers
 extension CDAccount {
     
     var entries: [CDAccountEntry] {
-        get { entries_?.sortedArray(using: [.sortOrder]) as? [CDAccountEntry] ?? [] }
+        get {
+            guard let entries_ else { return [] }
+            return Array(_immutableCocoaArray: entries_)
+        }
         set { entries_ = NSSet(array: newValue) }
     }
     
+    var sortedEntries: [CDAccountEntry] {
+        entries_?.sortedArray(using: [.sortOrder]) as? [CDAccountEntry] ?? []
+    }
+    
     var firstEntry: CDAccountEntry? {
-        entries.first
+        sortedEntries.first
     }
     
     var lastEntry: CDAccountEntry? {
-        entries.last
+        sortedEntries.last
     }
     
     var uuid: UUID {
@@ -24,7 +31,10 @@ extension CDAccount {
     
     var name: String {
         get { self.name_ ?? "" }
-        set { self.name_ = newValue }
+        set {
+            self.name_ = newValue
+            objectWillChange.send()
+        }
     }
     
     var date: Date {
@@ -32,12 +42,14 @@ extension CDAccount {
         set { self.date_ = newValue }
     }
     
+    
     public static func load(from url: URL, savingTo moc: NSManagedObjectContext) throws -> CDAccount {
         guard let data = try? Data(contentsOf: url) else {
             fatalError("Failed to read data from url")
         }
         
         let fileType = UTType(filenameExtension: url.pathExtension)
+        
         switch fileType {
         case .json:
             let jsonDecoder = JSONDecoder()

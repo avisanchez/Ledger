@@ -3,7 +3,10 @@ import CoreData
 import UniformTypeIdentifiers
 import SwiftUI
 
+@Observable
 final class CDAccountEntry: NSManagedObject, Codable, Sortable, Transferable {
+    
+    static var placeholder = CDAccountEntry(entity: CDAccountEntry.entity(), insertInto: nil)
 
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .json)

@@ -16,3 +16,5 @@ extension String {
         self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
+
+extension String: DefaultInitializable { }

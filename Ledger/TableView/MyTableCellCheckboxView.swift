@@ -15,7 +15,10 @@ class MyTableCellCheckboxView: NSTableCellView {
     var linkedObject: CDAccountEntry?
         
     override func viewWillDraw() {
-        guard let linkedObject else { return }
+        guard let linkedObject else {
+            checkbox.contentTintColor = .red
+            return
+        }
         checkbox.state = linkedObject.posted ? .on : .off
     }
     
@@ -31,8 +34,9 @@ class MyTableCellCheckboxView: NSTableCellView {
             print("failed to change state")
             break
         }
+        
         do {
-            try PersistenceController.managedObjectContext.save()
+            try PersistenceController.shared.viewContext.save()
         } catch {
             fatalError()
         }

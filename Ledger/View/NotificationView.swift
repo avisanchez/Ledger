@@ -11,6 +11,9 @@ import Foundation
 struct NotificationView: View {
     
     @State private var showNotification = false
+    
+    @Environment(\.undoManager)
+    var undoManger
 
     var body: some View {
         

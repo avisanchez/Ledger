@@ -67,7 +67,6 @@ extension SidebarView {
         
         private func _createAccountAndDismiss() {
             guard !newAccountName.isEmptyOrWhitespace else { return }
-            
             viewController.createAccount(name: newAccountName.stripped,
                                          startingBalance: startingBalance != 0 ? startingBalance : nil)
             dismiss.callAsFunction()
@@ -92,5 +91,3 @@ fileprivate struct VariableButtonStyle<PrimaryStyle: PrimitiveButtonStyle, Secon
         }
     }
 }
-
-

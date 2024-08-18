@@ -10,9 +10,11 @@ import SwiftUI
 
 struct TableViewControllerRepresentable: NSViewControllerRepresentable {
     
-    @Binding var selectedAccount: CDAccount?
-    @Binding var selectedEntry: CDAccountEntry?
-    @Binding var useRoundedTotals: Bool
+    @Environment(SearchController.self)
+    private var searchController
+    
+    @Environment(ViewController.self)
+    private var viewController
     
     func makeNSViewController(context: Context) -> NSViewController {
         let storyboard = NSStoryboard(name: "TableView",
@@ -32,15 +34,32 @@ struct TableViewControllerRepresentable: NSViewControllerRepresentable {
         guard let tableViewController = nsViewController as? TableViewController
         else { return }
 
-        if selectedAccount != context.coordinator.selectedAccount {
-            context.coordinator.selectedAccount = selectedAccount
-            tableViewController.updateFetch(for: selectedAccount)
-            tableViewController.updateRunningTotals(from: selectedAccount?.firstEntry)
+        if viewController.selectedAccount != context.coordinator.selectedAccount {
+            context.coordinator.selectedAccount = viewController.selectedAccount
+            FRC.shared.updateFetch(for: viewController.selectedAccount)
+            tableViewController.updateRunningTotals()
+            tableViewController.jump(to: .bottom)
         }
         
-        if useRoundedTotals != context.coordinator.useRoundedTotals {
-            context.coordinator.useRoundedTotals = useRoundedTotals
-            tableViewController.updateRunningTotals(from: selectedAccount?.firstEntry)
+        if viewController.selectedEntry != context.coordinator.selectedEntry {
+            context.coordinator.selectedEntry = viewController.selectedEntry
+            tableViewController.updateSelection()
+        }
+        
+        if viewController.useRoundedTotals != context.coordinator.useRoundedTotals {
+            context.coordinator.useRoundedTotals = viewController.useRoundedTotals
+            tableViewController.updateRunningTotals()
+        }
+        
+        if viewController.jumpDestination != context.coordinator.jumpDestination {
+            context.coordinator.jumpDestination = viewController.jumpDestination
+            tableViewController.jump(to: viewController.jumpDestination)
+            viewController.jumpDestination = .none
+        }
+        
+        if viewController.tableZoom != context.coordinator.scale {
+            context.coordinator.scale = viewController.tableZoom
+            tableViewController.tableView.reloadData()
         }
     }
     
@@ -53,15 +72,21 @@ struct TableViewControllerRepresentable: NSViewControllerRepresentable {
         var parent: TableViewControllerRepresentable
         
         var selectedAccount: CDAccount?
+        var selectedEntry: CDAccountEntry?
         var useRoundedTotals: Bool
+        var jumpDestination: TableViewController.JumpDestination
+        var scale: TableScale
                 
         init(_ parent: TableViewControllerRepresentable) {
             self.parent = parent
             self.useRoundedTotals = false
+            self.jumpDestination = .none
+            self.scale = .regular
         }
-                
+        
         func didSelectRow(_ entry: CDAccountEntry?) {
-            parent.selectedEntry = entry
+            parent.viewController.selectedEntry = entry
         }
+
     }
 }

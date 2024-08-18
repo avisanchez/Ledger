@@ -4,13 +4,12 @@ import UniformTypeIdentifiers
 
 extension CDAccountEntry {
     
-    static var useRoundedTotals: Bool = false
-    
     var date: Date {
         get { self.date_ ?? Date() }
         set { self.date_ = newValue }
     }
     
+    @ObservationTracked
     var notes: String {
         get { self.notes_ ?? "" }
         set { self.notes_ = newValue }
@@ -23,10 +22,6 @@ extension CDAccountEntry {
     
     // neccessary to conform to Identifiable
     var id: UUID { self.uuid }
-    
-    var formattedDate: String {
-        DateFormatter.format(date, using: "dd/MM")
-    }
     
     var sortOrder: Int {
         get { Int(self.sortOrder_) }

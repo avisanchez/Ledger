@@ -5,7 +5,9 @@ import Foundation
 class PersistenceController: ObservableObject {
     static let shared = PersistenceController()
     
-    static let managedObjectContext: NSManagedObjectContext = shared.persistentContainer.viewContext
+    var viewContext: NSManagedObjectContext {
+        self.persistentContainer.viewContext
+    }
     
     // Create a persistent container as a lazy variable to defer instantiation until its first use.
     lazy var persistentContainer: NSPersistentContainer = {
@@ -21,6 +23,18 @@ class PersistenceController: ObservableObject {
         
         return container
     }()
+    
+    func save() {
+        guard self.persistentContainer.viewContext.hasChanges else { return }
+
+        self.persistentContainer.viewContext.perform {
+            do {
+                try self.persistentContainer.viewContext.save()
+            } catch {
+                fatalError("Failed to save context: \(error)")
+            }
+        }
+    }
     
     private init() { }
 }

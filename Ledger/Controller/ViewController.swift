@@ -8,6 +8,19 @@
 import Foundation
 import CoreData
 import Observation
+import SwiftUI
+
+enum TableScale: CaseIterable, Identifiable {
+    var id: UUID { UUID() } 
+    
+    case xsmall
+    case small
+    case regular
+    case large
+    case xlarge
+    case xxlarge
+    case xxxlarge
+}
 
 @Observable
 class ViewController {
@@ -22,7 +35,29 @@ class ViewController {
     var selectedAccount: CDAccount?
     
     var selectedEntry: CDAccountEntry?
+        
+    var useRoundedTotals: Bool = false
     
+    var jumpDestination: TableViewController.JumpDestination = .none
+    
+    var fileImporterIsPresented: Bool = false
+    
+    var tableZoom: TableScale = .regular
+    
+//    var canUndo: Bool {
+//        viewContext.undoManager?.canUndo ?? false
+//    }
+//    
+//    var canRedo: Bool {
+//        viewContext.undoManager?.canRedo ?? false
+//    }
+    
+    enum AppState {
+        case importingFile
+        case deletingAccount
+        case creatingAccount
+        case none
+    }
     
     init(viewContext: NSManagedObjectContext) {
         self.viewContext = viewContext
@@ -34,7 +69,7 @@ class ViewController {
     func createAccount(name: String, startingBalance: Double? = nil) {
         
         let newAccount = CDAccount(context: viewContext, name: name)
-        
+
         if let startingBalance {
             createEntry(for: newAccount, startingBalance: startingBalance)
         }
@@ -46,7 +81,6 @@ class ViewController {
     
     
     func createEntry(for account: CDAccount) -> CDAccountEntry {
-        
         let newEntry = CDAccountEntry(context: viewContext, owner: account)
         
         if let selectedEntry {
@@ -62,6 +96,8 @@ class ViewController {
             
             _link(newEntry, selectedEntry.next)
             _link(selectedEntry, newEntry)
+        } else {
+            selectedEntry = newEntry
         }
         
         calculateSortOrder(for: newEntry)
@@ -157,79 +193,10 @@ class ViewController {
     
     
     func delete(_ entry: CDAccountEntry) {
-        if selectedEntry == entry { selectedEntry = entry.previous }
+        if entry == selectedEntry {
+            selectedEntry = nil
+        }
         _delete(entry)
-    }
-    
-    func get<T: NSManagedObject & Sortable>(_ type: T.Type, at indicies: Int...) -> [T]? {
-        let request = T.fetchRequest()
-        
-        request.sortDescriptors = [.sortOrder]
-        
-        do {
-            guard let fetchedObjects = try viewContext.fetch(request) as? [T] else {
-                fatalError("DEBUG: Failed to transform objects")
-            }
-            
-            guard indicies.allSatisfy( { 0 <= $0 && $0 <= fetchedObjects.count } ) else {
-                fatalError("DEBUG: Index out of bounds")
-            }
-            
-            return fetchedObjects.enumerated().filter { indicies.contains($0.offset) }
-                .map { $0.element }
-        } catch {
-            fatalError("DEBUG: Failed to fetch objects: \(error)")
-        }
-    }
-    
-    
-    func get<T: NSManagedObject & Sortable>(_ type: T.Type, at index: Int) -> T? {
-        let result: [T]? = get(type, at: index)
-        
-        if let result, result.count > 1 {
-            fatalError("DEBUG: More than one object detected at index \(index)")
-        }
-        
-        return result?.first
-    }
-    
-    
-    func move<T: NSManagedObject & Sortable>(_ type: T.Type, _ startIndex: Int, to endIndex: Int) {
-        
-        guard startIndex != endIndex
-        else { return }
-        
-        let moveForward: Bool = startIndex < endIndex
-        
-        guard let items = get(T.self, at: startIndex, moveForward ? endIndex - 1 : endIndex) else { return }
-        
-        guard var itemToMove = moveForward ? items.first : items.last,
-              let itemToInsertAt = moveForward ? items.last : items.first
-        else {
-            fatalError("DEBUG: Failed to get start and end items")
-        }
-        
-        // Remove item from linked list
-        if var previous = itemToMove.previous {
-            previous.next = itemToMove.next
-        } else {
-            itemToMove.next?.previous = nil
-        }
-        
-        // Insert item into linked list
-        if moveForward {
-            _link(itemToMove, itemToInsertAt.next)
-            _link(itemToInsertAt, itemToMove)
-        } else {
-            _link(itemToInsertAt.previous, itemToMove)
-            _link(itemToMove, itemToInsertAt)
-        }
-        
-        save()
-    }
-    
-    func fetch(_ request: NSFetchRequest<NSFetchRequestResult>) throws -> [NSFetchRequestResult] {
-        try viewContext.fetch(request)
     }
     
     @discardableResult
@@ -245,31 +212,38 @@ class ViewController {
         }
     }
     
-    
     func undo() {
-        viewContext.undo()
-        save()
+        viewContext.perform {
+            self.viewContext.undo()
+            self.viewContext.attemptSave()
+        }
     }
     
     
     func redo() {
-        viewContext.redo()
-        save()
+        viewContext.perform {
+            self.viewContext.redo()
+            self.save()
+        }
     }
     
     
     // -- PRIVATE METHODS --
     
     private func _delete(_ account: CDAccount) {
-        viewContext.delete(account)
-        save()
+        viewContext.perform {
+            self.viewContext.delete(account)
+            self.save()
+        }
     }
     
     
     private func _delete(_ entry: CDAccountEntry) {
-        _link(entry.previous, entry.next)
-        viewContext.delete(entry)
-        save()
+        viewContext.perform {
+            self._link(entry.previous, entry.next)
+            self.viewContext.delete(entry)
+            self.save()
+        }
     }
     
     
