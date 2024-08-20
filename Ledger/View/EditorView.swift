@@ -11,9 +11,7 @@ import SwiftData
 import Observation
 
 struct EditorView: View {
-    @Environment(\.undoManager) var undoManager
     @Environment(\.managedObjectContext) var viewContext
-    @Environment(\.isSearching) var isSearching
     @Environment(ViewController.self) var viewController
     
     @ObservedObject var entry: CDAccountEntry

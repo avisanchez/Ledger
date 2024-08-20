@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23G93" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="CDAccount" representedClassName=".CDAccount" syncable="YES" codeGenerationType="category">
         <attribute name="date_" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name_" attributeType="String"/>
@@ -7,13 +7,13 @@
         <relationship name="entries_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDAccountEntry" inverseName="owner" inverseEntity="CDAccountEntry"/>
     </entity>
     <entity name="CDAccountEntry" representedClassName=".CDAccountEntry" syncable="YES" codeGenerationType="category">
-        <attribute name="creditAmount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="creditAmount_" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="date_" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="debitAmount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="debitAmount_" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="notes_" attributeType="String" defaultValueString=""/>
         <attribute name="posted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="runningTotal" transient="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="sortOrder_" optional="YES" attributeType="Integer 64" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="sortOrder_" attributeType="Integer 64" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="uuid_" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="next" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDAccountEntry" inverseName="previous" inverseEntity="CDAccountEntry"/>
         <relationship name="owner" maxCount="1" deletionRule="Nullify" destinationEntity="CDAccount" inverseName="entries_" inverseEntity="CDAccount"/>

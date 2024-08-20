@@ -22,12 +22,7 @@ protocol TableViewControllerDelegate: AnyObject {
         get
     }
     
-    var jumpDestination: TableViewController.JumpDestination {
-        get
-        set
-    }
-    
-    var scale: TableScale {
+    var tableScale: TableScale {
         get
         set
     }

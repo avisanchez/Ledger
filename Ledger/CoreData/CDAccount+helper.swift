@@ -31,10 +31,7 @@ extension CDAccount {
     
     var name: String {
         get { self.name_ ?? "" }
-        set {
-            self.name_ = newValue
-            objectWillChange.send()
-        }
+        set { self.name_ = newValue }
     }
     
     var date: Date {

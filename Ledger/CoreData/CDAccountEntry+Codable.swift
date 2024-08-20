@@ -3,14 +3,9 @@ import CoreData
 import UniformTypeIdentifiers
 import SwiftUI
 
-@Observable
-final class CDAccountEntry: NSManagedObject, Codable, Sortable, Transferable {
+final class CDAccountEntry: NSManagedObject, Codable {
     
     static var placeholder = CDAccountEntry(entity: CDAccountEntry.entity(), insertInto: nil)
-
-    static var transferRepresentation: some TransferRepresentation {
-        CodableRepresentation(contentType: .json)
-    }
     
     required convenience init(from decoder: any Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext!] as? NSManagedObjectContext else {

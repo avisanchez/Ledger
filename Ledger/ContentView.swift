@@ -11,22 +11,16 @@ import SwiftData
 
 struct ContentView: View {
     
-    @Environment(ViewController.self)
-    private var viewController
+    @Environment(ViewController.self) var viewController
     
-    @Environment(\.managedObjectContext)
-    private var viewContext
+    @Environment(\.managedObjectContext) var viewContext
     
-    @State private var isBlurred: Bool = false
-    @State private var searchTerm: String = ""
+    @EnvironmentObject var observedSelectedAccount: CDAccount
     
-    @Binding var selectedAccount: CDAccount?
-    @Binding var selectedEntry: CDAccountEntry?
+    @State var isBlurred: Bool = false
+    @State var searchTerm: String = ""
     
-    @EnvironmentObject var testSelectedAccount: CDAccount
-    
-    
-    private enum SearchScopes {
+    enum SearchScopes {
         case all
         case byDate
         case byNotes
@@ -34,45 +28,51 @@ struct ContentView: View {
         case byCreditAmount
     }
     
-    @State private var searchScopes: [SearchScopes]?
+    @State var searchScopes: [SearchScopes]?
     
-    @State private var searchController = SearchController()
-
+    @State var searchController = SearchController()
+    
     var body: some View {
+        let viewController = Bindable(viewController)
         
         NavigationSplitView {
-            SidebarView(selectedAccount: $selectedAccount)
+            SidebarView(selectedAccount: viewController.selectedAccount)
         } detail: {
             ZStack(alignment: .center) {
                 VStack {
-                                            Text("DEBUG")
+                    Text("DEBUG")
                     //                        Text("Searching: \(searchTerm)")
-                                            Text("selected entry: \(selectedEntry?.notes)")
+                    //                    Text("selected entry: \(viewController.selectedEntry?.notes)")
                     //                        Text("selected entry: \(selectedEntry?.uuid), \(selectedEntry?.sortOrder)")
                     //                        Text("selected account: \(selectedAccount?.name)")
                     //                        Text("isSearching: \(isSearching)")
+                    
+                    Button("Print Registered Objects") {
+                        print(PersistenceController.shared.viewContext.registeredObjects)
+                    }
                     TableViewControllerRepresentable()
                         .environment(searchController)
                         .onKeyPress(.delete) {
-                            guard let selectedEntry else { return .ignored }
+                            guard let selectedEntry = self.viewController.selectedEntry else { return .ignored }
                             
                             viewContext.perform {
-                                CDController.delete(selectedEntry, useRoundedTotals: viewController.useRoundedTotals) { success, newSelf in
+                                CDController.delete(selectedEntry, useRoundedTotals: self.viewController.useRoundedTotals) { success, newSelf in
                                     guard success else { return }
-                                    viewController.selectedEntry = newSelf
+                                    self.viewController.selectedEntry = newSelf
                                 }
                             }
                             
                             return .handled
                         }
                     
-                    EditorView(entry: selectedEntry ?? .placeholder)
+                    EditorView(entry: self.viewController.selectedEntry ?? .placeholder)
                 }
                 .blur(radius: isBlurred ? 5 : 0)
-                    
+                
             }
             
         }
+        
         .searchable(text: $searchTerm, prompt: "Search notes") {
             
             ForEach(searchController.searchSuggestions, id: \.self) { suggestion in
@@ -90,7 +90,7 @@ struct ContentView: View {
         //
         //        })
         .onSubmit(of: .search) {
-            guard let selectedAccount = viewController.selectedAccount else { return }
+            guard let selectedAccount = self.viewController.selectedAccount else { return }
             searchController.submitSearch(selectedAccount, notes: searchTerm)
         }
         .onChange(of: searchTerm, { oldValue, newValue in
@@ -98,8 +98,8 @@ struct ContentView: View {
                 searchController.updateSuggestions(from: oldValue, to: newValue)
             }
         })
-        .navigationTitle(testSelectedAccount.name)
-        .fileImporter(isPresented: Bindable(viewController).fileImporterIsPresented,
+        .navigationTitle(observedSelectedAccount.name)
+        .fileImporter(isPresented: viewController.fileImporterIsPresented,
                       allowedContentTypes: [.json, .propertyList],
                       allowsMultipleSelection: true) { result in
             
@@ -115,8 +115,8 @@ struct ContentView: View {
                     
                     do {
                         let newAccount = try CDAccount.load(from: file,
-                                                            savingTo: viewController.viewContext)
-                        viewController.selectedAccount = newAccount
+                                                            savingTo: viewContext)
+                        self.viewController.selectedAccount = newAccount
                     } catch {
                         fatalError("\(error)")
                     }
@@ -130,58 +130,25 @@ struct ContentView: View {
                 fatalError("\(error)")
             }
         }
-                      .toolbar {
-                          blurViewButton
-                          
-                          createEntryButton
-                          
-                          roundTotalsToggle
-                          
-                          undoButton
-                          
-                          redoButton
-                          
-                          Menu {
-                              Button("hello world") { }
-                              Button("stinky caca") { }
-                                  .keyboardShortcut("a")
-                          } label: {
-                              Image(systemName: "plus")
-                          }
-                          
-                      }
+        .toolbar {
+          
+            blurViewButton
+
+            createEntryButton
+
+            roundTotalsToggle
+
+            undoButton
+
+            redoButton
+          
+        }
     }
     
 }
 
 
 extension ContentView {
-    //    func jumpToTopButton() -> some View {
-    //        Button {
-    //            guard let firstEntry = viewController.selectedAccount?.firstEntry else { return }
-    //            viewController.selectedEntry = firstEntry
-    //        } label: {
-    //            Image(systemName: "arrow.up")
-    //                .padding()
-    //                .background(.regularMaterial.opacity(0.5), in: RoundedRectangle(cornerRadius: 10.0))
-    //                .shadow(radius: 10)
-    //                .padding([.bottom])
-    //        }.buttonStyle(.plain)
-    //    }
-    
-    //    func jumpToBottomButton(_ proxy: ScrollViewProxy) -> some View {
-    //        Button {
-    //            guard let lastEntry = viewController.selectedAccount?.lastEntry else { return }
-    //            proxy.scrollTo(lastEntry.id, anchor: .bottom)
-    //            viewController.selectedEntry = lastEntry
-    //        } label: {
-    //            Image(systemName: "arrow.down")
-    //                .padding()
-    //                .background(.regularMaterial.opacity(0.5), in: RoundedRectangle(cornerRadius: 10.0))
-    //                .shadow(radius: 10)
-    //                .padding([.bottom, .trailing])
-    //        }.buttonStyle(.plain)
-    //    }
     
     var blurViewButton: some View {
         Button {
@@ -192,9 +159,11 @@ extension ContentView {
         .help("Hide")
     }
     
+    
     var createEntryButton: some View {
         Button {
-            guard let selectedAccount else { return }
+            guard let selectedAccount = viewController.selectedAccount else { return }
+            let selectedEntry = viewController.selectedEntry
             CDController.createEntry(for: selectedAccount, below: selectedEntry)
         } label: {
             Image(systemName: "plus")
@@ -203,31 +172,34 @@ extension ContentView {
         .help("New Entry")
     }
     
+    
     var roundTotalsToggle: some View {
         Toggle("RT", isOn: Bindable(viewController).useRoundedTotals)
-            .help("Round Totals")
             .keyboardShortcut(.roundTotals)
+            .help("Round Totals")
     }
+    
     
     var undoButton: some View {
         Button {
-            viewController.undo()
+            // viewController.undo()
+            print("TODO: implement undo")
         } label: {
             Image(systemName: "arrow.uturn.backward")
         }
-        .help("Undo")
         .keyboardShortcut(.undo)
-        //        .disabled(!viewController.canUndo)
+        .help("Undo")
     }
+    
     
     var redoButton: some View {
         Button {
-            viewController.redo()
+            // viewController.redo()
+            print("TODO: implement redo")
         } label: {
             Image(systemName: "arrow.uturn.forward")
         }
-        .help("Redo")
         .keyboardShortcut(.redo)
-        //        .disabled(!viewController.canRedo)
+        .help("Redo")
     }
 }

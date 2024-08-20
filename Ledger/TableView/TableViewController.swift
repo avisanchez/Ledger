@@ -2,20 +2,28 @@ import Foundation
 import AppKit
 import SwiftUI
 
+
 class TableViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
+
+    @IBAction func nsButtonUpdate(_ sender: NSButton) {
+        PersistenceController.shared.viewContext.attemptSave()
+    }
     
-    @IBAction func didFinishEditing(_ sender: NSTextField) {
+    @IBAction func nsTextFieldUpdate(_ sender: NSTextField) {
         let row = tableView.row(for: sender)
         let col = tableView.column(for: sender)
-        print("DEBUG \(#function): (\(row),\(col)) finished editing!")
+//        print("DEBUG \(#function): (\(row),\(col)) finished editing!")
+//        print("text field string value: \(sender.stringValue)")
+//        print("binding info: \(sender.infoForBinding(.valuePath))")
         
         let tableColumnId = tableView.tableColumns[col].identifier
         
-        if tableColumnId == Self.debitColumnID || 
+        if tableColumnId == Self.debitColumnID ||
            tableColumnId == Self.creditColumnID {
-            updateRunningTotals(from: FRC.shared.fetchedObjects?[row])
+            let modifiedObject = FRC.shared.fetchedObjects?[row]
+            _updateRunningTotals(from: modifiedObject)
         }
         
         PersistenceController.shared.viewContext.attemptSave()
@@ -50,39 +58,8 @@ class TableViewController: NSViewController {
         }
     }
     
-    enum JumpDestination {
-        case top
-        case bottom
-        case selection
-        case none
-    }
     
-    func jump(to destination: JumpDestination) {
-        delegate?.jumpDestination = .none
-        
-        var rowIndex: Int
-        
-        switch destination {
-        case .top:
-            rowIndex = 0
-            break
-        case .bottom:
-            guard let fetchedObjects = FRC.shared.fetchedObjects else { return }
-            rowIndex = fetchedObjects.count - 1
-            break
-        case .selection:
-            rowIndex = tableView.selectedRow
-            break
-        case .none:
-            return
-        }
-       
-        tableView.scrollRowToVisible(rowIndex)
-    }
-    
-    
-    
-    func updateRunningTotals(from start: CDAccountEntry? = nil, to end: CDAccountEntry? = nil) {
+    func _updateRunningTotals(from start: CDAccountEntry? = nil, to end: CDAccountEntry? = nil) {
         guard let delegate else { return }
         let start = (start == nil) ? FRC.shared.firstObject : start
         CDController.updateRunningTotals(from: start, to: end, useRoundedTotals: delegate.useRoundedTotals)
@@ -94,25 +71,32 @@ class TableViewController: NSViewController {
         FRC.shared.tableView = tableView
     }
     
+    func scrollToBottom() {
+        let lastRow = tableView.numberOfRows - 1
+        tableView.scrollRowToVisible(lastRow)
+    }
+    
+    
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        guard let delegate else { return 30 }
-        
-        switch delegate.scale {
-        case .xsmall:
-            return 20
-        case .small:
-            return 25
-        case .regular:
-            return 30
-        case .large:
-            return 35
-        case .xlarge:
-            return 40
-        case .xxlarge:
-            return 45
-        case .xxxlarge:
-            return 50
-        }
+        return 30
+//        guard let delegate else { return 30 }
+//        
+//        switch delegate.tableScale {
+//        case .xsmall:
+//            return 20
+//        case .small:
+//            return 25
+//        case .regular:
+//            return 30
+//        case .large:
+//            return 35
+//        case .xlarge:
+//            return 40
+//        case .xxlarge:
+//            return 45
+//        case .xxxlarge:
+//            return 50
+//        }
     }
     
     
@@ -145,7 +129,7 @@ class TableViewController: NSViewController {
 
                 PersistenceController.shared.viewContext.perform {
                     CDController.delete(entryToDelete, useRoundedTotals: delegate.useRoundedTotals) { success, newSelf in
-                        guard success, delegate.selectedEntry == nil else { return }
+                        guard success, delegate.selectedEntry == entryToDelete else { return }
                         delegate.didSelectRow(newSelf)
                     }
                 }
@@ -287,9 +271,7 @@ extension TableViewController: NSTableViewDataSource {
             }
         }
         
-        if let delegate {
-            CDController.updateRunningTotals(from: firstEntry, useRoundedTotals: delegate.useRoundedTotals)
-        }
+        _updateRunningTotals(from: firstEntry)
                 
         return true
     }
@@ -314,7 +296,7 @@ extension TableViewController: NSTableViewDelegate {
         } else {
             _configureCell(cell: cell, tableColumn: tableColumn, row: row)
         }
-        
+
         return cell
     }
 
@@ -341,8 +323,8 @@ extension TableViewController: NSTableViewDelegate {
             }
             break
         case Self.postedColumnID:
-            let customCell = cell as? MyTableCellCheckboxView
-            customCell?.linkedObject = entry
+//            let customCell = cell as? MyTableCellCheckboxView
+//            customCell?.linkedObject = entry
             break
         case Self.runningTotalColumnID:
             if entry.runningTotal.isZero {

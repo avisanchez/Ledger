@@ -37,8 +37,8 @@ struct TableViewControllerRepresentable: NSViewControllerRepresentable {
         if viewController.selectedAccount != context.coordinator.selectedAccount {
             context.coordinator.selectedAccount = viewController.selectedAccount
             FRC.shared.updateFetch(for: viewController.selectedAccount)
-            tableViewController.updateRunningTotals()
-            tableViewController.jump(to: .bottom)
+            tableViewController._updateRunningTotals()
+            tableViewController.scrollToBottom()
         }
         
         if viewController.selectedEntry != context.coordinator.selectedEntry {
@@ -48,19 +48,13 @@ struct TableViewControllerRepresentable: NSViewControllerRepresentable {
         
         if viewController.useRoundedTotals != context.coordinator.useRoundedTotals {
             context.coordinator.useRoundedTotals = viewController.useRoundedTotals
-            tableViewController.updateRunningTotals()
+            tableViewController._updateRunningTotals()
         }
-        
-        if viewController.jumpDestination != context.coordinator.jumpDestination {
-            context.coordinator.jumpDestination = viewController.jumpDestination
-            tableViewController.jump(to: viewController.jumpDestination)
-            viewController.jumpDestination = .none
-        }
-        
-        if viewController.tableZoom != context.coordinator.scale {
-            context.coordinator.scale = viewController.tableZoom
-            tableViewController.tableView.reloadData()
-        }
+
+//        if viewController.tableScale != context.coordinator.tableScale {
+//            context.coordinator.tableScale = viewController.tableScale
+//            tableViewController.tableView.reloadData()
+//        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -74,14 +68,12 @@ struct TableViewControllerRepresentable: NSViewControllerRepresentable {
         var selectedAccount: CDAccount?
         var selectedEntry: CDAccountEntry?
         var useRoundedTotals: Bool
-        var jumpDestination: TableViewController.JumpDestination
-        var scale: TableScale
+        var tableScale: TableScale
                 
         init(_ parent: TableViewControllerRepresentable) {
             self.parent = parent
             self.useRoundedTotals = false
-            self.jumpDestination = .none
-            self.scale = .regular
+            self.tableScale = .regular
         }
         
         func didSelectRow(_ entry: CDAccountEntry?) {

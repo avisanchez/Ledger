@@ -9,16 +9,26 @@ extension CDAccountEntry {
         set { self.date_ = newValue }
     }
     
-    @ObservationTracked
     var notes: String {
         get { self.notes_ ?? "" }
         set { self.notes_ = newValue }
+    }
+    
+    var debitAmount: Double {
+        get { self.debitAmount_ }
+        set { self.debitAmount_ = newValue }
+    }
+    
+    var creditAmount: Double {
+        get { self.creditAmount_ }
+        set { self.creditAmount_ = newValue }
     }
     
     var uuid: UUID {
         get { self.uuid_ ?? UUID() }
         set { self.uuid_ = newValue }
     }
+
     
     // neccessary to conform to Identifiable
     var id: UUID { self.uuid }

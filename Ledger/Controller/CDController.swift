@@ -51,28 +51,42 @@ final class CDController {
     }
     
     static func moveEntry(_ entryToMove: CDAccountEntry, below entryToInsertAt: CDAccountEntry) {
+        let adjacentBeforeMove = entryToMove.next == entryToInsertAt
+        
         _link(entryToMove.previous, entryToMove.next)
-        insertEntry(entryToMove, below: entryToInsertAt)
+        _link(entryToMove, entryToInsertAt.next)
+        _link(entryToInsertAt, entryToMove)
+        
+        let adjacentAfterMove = entryToMove.previous == entryToInsertAt
+        
+        if adjacentBeforeMove && adjacentAfterMove {
+            let tempSortOrder = entryToMove.sortOrder
+            entryToMove.sortOrder = entryToInsertAt.sortOrder
+            entryToInsertAt.sortOrder = tempSortOrder
+        } else {
+            _calculateSortOrder(for: entryToMove)
+        }
     }
     
     static func moveEntry(_ entryToMove: CDAccountEntry, above entryToInsertAt: CDAccountEntry) {
+        let adjacentBeforeMove = entryToMove.previous == entryToInsertAt
+        
         _link(entryToMove.previous, entryToMove.next)
-        insertEntry(entryToMove, above: entryToInsertAt)
+        _link(entryToInsertAt.previous, entryToMove)
+        _link(entryToMove, entryToInsertAt)
+        
+        let adjacentAfterMove = entryToMove.next == entryToInsertAt
+        
+        if adjacentBeforeMove && adjacentAfterMove {
+            let tempSortOrder = entryToMove.sortOrder
+            entryToMove.sortOrder = entryToInsertAt.sortOrder
+            entryToInsertAt.sortOrder = tempSortOrder
+        } else {
+            _calculateSortOrder(for: entryToMove)
+        }
     }
     
-    static func insertEntry(_ newEntry: CDAccountEntry, below oldEntry: CDAccountEntry) {
-        _link(newEntry, oldEntry.next)
-        _link(oldEntry, newEntry)
-        
-        _calculateSortOrder(for: newEntry)
-    }
     
-    static func insertEntry(_ newEntry: CDAccountEntry, above oldEntry: CDAccountEntry) {
-        _link(oldEntry.previous, newEntry)
-        _link(newEntry, oldEntry)
-        
-        _calculateSortOrder(for: newEntry)
-    }
     
     /*
      Creates a new entry above the specified entry. If 'entry' is nil, a new entry is created in the first position.
@@ -80,15 +94,13 @@ final class CDController {
     @discardableResult
     static func createEntry(for account: CDAccount, above entry: CDAccountEntry?) -> CDAccountEntry? {
         guard let viewContext = account.managedObjectContext else { return nil }
-        
-        let firstEntry = account.firstEntry
-        
+                
         let newEntry = CDAccountEntry(context: viewContext, owner: account)
         
         if let entry {
             _link(entry.previous, newEntry)
             _link(newEntry, entry)
-        } else if let firstEntry {
+        } else if let firstEntry = account.firstEntry, firstEntry != newEntry {
             _link(newEntry, firstEntry)
         }
         
@@ -105,15 +117,13 @@ final class CDController {
     @discardableResult
     static func createEntry(for account: CDAccount, below entry: CDAccountEntry?) -> CDAccountEntry? {
         guard let viewContext = account.managedObjectContext else { return nil }
-        
-        let lastEntry = account.lastEntry
-        
+                
         let newEntry = CDAccountEntry(context: viewContext, owner: account)
         
         if let entry {
             _link(newEntry, entry.next)
             _link(entry, newEntry)
-        } else if let lastEntry {
+        } else if let lastEntry = account.lastEntry, lastEntry != newEntry {
             _link(lastEntry, newEntry)
         }
         
@@ -141,7 +151,6 @@ final class CDController {
         
         var newSelf: CDAccountEntry?
         
-        
         viewContext.delete(entry)
         
         if let next {
@@ -154,6 +163,13 @@ final class CDController {
         viewContext.attemptSave()
         
         return completion(true, newSelf)
+    }
+    
+    static func delete(_ account: CDAccount) {
+        guard let viewContext = account.managedObjectContext else { return }
+        
+        viewContext.delete(account)
+        viewContext.attemptSave()
     }
     
     
@@ -200,11 +216,11 @@ final class CDController {
         return current.sortOrder
     }
     
-    private static func _link<T: NSManagedObject & Sortable>(_ object1: T?, _ object2: T?) {
-        if var object1 {
-            object1.next = object2
-        } else if var object2 {
-            object2.previous = object1
+    private static func _link(_ e1: CDAccountEntry?, _ e2: CDAccountEntry?) {
+        if var e1 {
+            e1.next = e2
+        } else if var e2 {
+            e2.previous = e1
         }
     }
     
@@ -212,6 +228,27 @@ final class CDController {
 
     private static let _hasSpaceBetween: (CDAccountEntry, CDAccountEntry) -> Bool = {
         return abs($1.sortOrder - $0.sortOrder) > 1
+    }
+    
+    @discardableResult
+    static func createAccount(in viewContext: NSManagedObjectContext = PersistenceController.shared.viewContext,
+                              name: String = "New Account",
+                              startingBalance: Double = 0) -> CDAccountEntry? {
+                
+        let newAccount = CDAccount(context: viewContext, name: name)
+
+        let newEntry = createEntry(for: newAccount, above: nil)
+        if startingBalance >= 0 {
+            newEntry?.debitAmount = startingBalance
+        } else {
+            newEntry?.creditAmount = abs(startingBalance)
+        }
+        
+        newEntry?.notes = "INITIAL BALANCE"
+        
+        viewContext.attemptSave()
+        
+        return newEntry
     }
     
     private init() {}

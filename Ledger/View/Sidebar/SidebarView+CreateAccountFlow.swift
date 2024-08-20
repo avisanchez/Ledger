@@ -11,13 +11,16 @@ import SwiftUI
 extension SidebarView {
     struct CreateAccountFlow: View {
         @Environment(ViewController.self)
-        private var viewController
+        var viewController
+        
+        @Environment(\.managedObjectContext)
+        var viewContext
         
         @Environment(\.dismiss)
-        private var dismiss
+        var dismiss
         
-        @State private var newAccountName: String = ""
-        @State private var startingBalance: Double = 0.0
+        @State var newAccountName: String = ""
+        @State var startingBalance: Double = 0.0
                 
         var body: some View {
             VStack {
@@ -62,13 +65,13 @@ extension SidebarView {
                 _createAccountAndDismiss()
                 return .handled
             }
-            
         }
         
         private func _createAccountAndDismiss() {
             guard !newAccountName.isEmptyOrWhitespace else { return }
-            viewController.createAccount(name: newAccountName.stripped,
-                                         startingBalance: startingBalance != 0 ? startingBalance : nil)
+            viewContext.perform {
+                CDController.createAccount(name: newAccountName.stripped, startingBalance: startingBalance)
+            }
             dismiss.callAsFunction()
         }
     }
