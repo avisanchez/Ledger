@@ -13,5 +13,7 @@ final class Constants {
     
     static let dateFormat: String = "MM/dd"
     
+    static let encodingVersionNumber = 2.0
+    
     private init() {}
 }

@@ -4,16 +4,16 @@ import UniformTypeIdentifiers
 
 extension CDAccount {
     
-    var entries: [CDAccountEntry] {
+    var entries: NSSet {
         get {
             guard let entries_ else { return [] }
-            return Array(_immutableCocoaArray: entries_)
+            return entries_
         }
-        set { entries_ = NSSet(array: newValue) }
+        set { entries_ = newValue }
     }
     
     var sortedEntries: [CDAccountEntry] {
-        entries_?.sortedArray(using: [.sortOrder]) as? [CDAccountEntry] ?? []
+        entries.sortedArray(using: [.sortOrder]) as? [CDAccountEntry] ?? []
     }
     
     var firstEntry: CDAccountEntry? {
@@ -37,6 +37,13 @@ extension CDAccount {
     var date: Date {
         get { self.date_ ?? Date() }
         set { self.date_ = newValue }
+    }
+    
+    var exportFilename: String {
+        let dateString = DateFormatter(dateFormat: "yyyy-MM-dd").string(from: .now)
+        let displayName = name.isEmpty ? "Unnamed" : name
+        
+        return dateString + "-\(displayName)"
     }
     
     

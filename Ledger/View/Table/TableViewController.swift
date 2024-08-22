@@ -8,7 +8,7 @@ class TableViewController: NSViewController {
     @IBOutlet weak var tableView: NSTableView!
 
     @IBAction func nsButtonUpdate(_ sender: NSButton) {
-        PersistenceController.shared.viewContext.attemptSave()
+        delegate?.viewContext.attemptSave()
     }
     
     @IBAction func nsTextFieldUpdate(_ sender: NSTextField) {
@@ -22,18 +22,39 @@ class TableViewController: NSViewController {
         
         if tableColumnId == Self.debitColumnID ||
            tableColumnId == Self.creditColumnID {
-            let modifiedObject = FRC.shared.fetchedObjects?[row]
+            let modifiedObject = FRC.main.fetchedObjects?[row]
             _updateRunningTotals(from: modifiedObject)
         }
-        
-        PersistenceController.shared.viewContext.attemptSave()
+        delegate?.viewContext.attemptSave()
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        guard let entry = FRC.shared.fetchedObjects?[row]
+        guard let entry = FRC.main.fetchedObjects?[row]
         else { return nil }
         
         return entry
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if event.specialKey == .delete {
+            guard let viewContext = delegate?.viewContext,
+                  let selectedEntry = delegate?.selectedEntry,
+                  let useRoundedTotals = delegate?.useRoundedTotals
+            else { return }
+            
+            viewContext.perform {
+                CDController.delete(selectedEntry, useRoundedTotals: useRoundedTotals) { success, newSelf in
+                    guard success else { return }
+                    self.delegate?.didSelectRow(newSelf)
+                }
+            }
+        } else if event.keyCode == 49 && event.modifierFlags.contains([.shift, .command]) {
+            tableView.scrollRowToCenter(row: tableView.selectedRow, animated: true)
+        }
+        
+        
+        
+        
     }
     
     
@@ -61,19 +82,14 @@ class TableViewController: NSViewController {
     
     func _updateRunningTotals(from start: CDAccountEntry? = nil, to end: CDAccountEntry? = nil) {
         guard let delegate else { return }
-        let start = (start == nil) ? FRC.shared.firstObject : start
+        let start = (start == nil) ? FRC.main.firstObject : start
         CDController.updateRunningTotals(from: start, to: end, useRoundedTotals: delegate.useRoundedTotals)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerForDraggedTypes([.string])
-        FRC.shared.tableView = tableView
-    }
-    
-    func scrollToBottom() {
-        let lastRow = tableView.numberOfRows - 1
-        tableView.scrollRowToVisible(lastRow)
+        FRC.main.tableView = tableView
     }
     
     
@@ -108,54 +124,26 @@ class TableViewController: NSViewController {
             delegate.didSelectRow(nil)
             return
         }
-        delegate.didSelectRow(FRC.shared.fetchedObjects?[selectedRow])
+        delegate.didSelectRow(FRC.main.fetchedObjects?[selectedRow])
     }
     
     func updateSelection() {
         guard let selectedEntry = delegate?.selectedEntry,
-        let row = FRC.shared.indexPath(forObject: selectedEntry)?.item
+        let row = FRC.main.indexPath(forObject: selectedEntry)?.item
         else { return }
         
         tableView.selectRowIndexes([row], byExtendingSelection: false)
+        tableView.scrollRowToVisible(row)
     }
 
     func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableView.RowActionEdge) -> [NSTableViewRowAction] {
+        guard edge == .trailing else { return [] }
         
-        if edge == .trailing {
-            let deleteRowAction = NSTableViewRowAction(style: .destructive, title: "delete") { _, index in
-                guard let delegate = self.delegate,
-                      let entryToDelete = FRC.shared.fetchedObjects?[index]
-                else { return }
-
-                PersistenceController.shared.viewContext.perform {
-                    CDController.delete(entryToDelete, useRoundedTotals: delegate.useRoundedTotals) { success, newSelf in
-                        guard success, delegate.selectedEntry == entryToDelete else { return }
-                        delegate.didSelectRow(newSelf)
-                    }
-                }
-            }
-            let trashImage = NSImage(systemSymbolName: "trash", accessibilityDescription: nil)
-            deleteRowAction.image = trashImage
-            
-            let editRowAction = NSTableViewRowAction(style: .regular, title: "edit") { _, index in
-                tableView.rowActionsVisible.toggle()
-                return
-            }
-            let pencilImage = NSImage(systemSymbolName: "pencil", accessibilityDescription: nil)
-            editRowAction.image = pencilImage
-            editRowAction.backgroundColor = .systemYellow
-            
-            let archiveRowAction = NSTableViewRowAction(style: .regular, title: "archive") { _, index in
-                tableView.rowActionsVisible.toggle()
-            }
-            let archiveImage = NSImage(systemSymbolName: "archivebox", accessibilityDescription: nil)
-            archiveRowAction.image = archiveImage
-            archiveRowAction.backgroundColor = .systemPurple
-            
-            return [editRowAction, archiveRowAction, deleteRowAction]
+        if let delegate, delegate.isSearching {
+            return [jumpToEntryAction, deleteRowAction]
         }
         
-        return []
+        return [archiveRowAction, deleteRowAction]
     }
 
 }
@@ -166,7 +154,7 @@ extension TableViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         guard delegate?.selectedAccount != nil,
-              let fetchedObjects = FRC.shared.fetchedObjects
+              let fetchedObjects = FRC.main.fetchedObjects
         else { return 0 }
 
         return fetchedObjects.count
@@ -174,6 +162,7 @@ extension TableViewController: NSTableViewDataSource {
     
     
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+        guard let delegate, !delegate.isSearching else { return nil }
         let pasteboard = NSPasteboardItem()
         pasteboard.setString("\(row)", forType: .string)
         return pasteboard
@@ -250,29 +239,20 @@ extension TableViewController: NSTableViewDataSource {
               row < minRow || row > maxRow + 1
         else { return false }
 
-        guard let entryToMove = FRC.shared.fetchedObjects?[minRow]
+        guard let entryToMove = FRC.main.fetchedObjects?[minRow]
         else { return false }
         
-        /*
-         The first entry may change during row reordering and the fetched results controller will not upate until after this methd returns. We must keep a local version of the first entry and update it locally so running totals can be correctly recalculated from the true first entry.
-         */
-        var firstEntry = FRC.shared.fetchedObjects?.first
-        
-        if row > maxRow, let entryToInsertAt = FRC.shared.fetchedObjects?[row - 1] {
-            if entryToMove.isFirst {
-                firstEntry = entryToMove.next
-            }
+        if row > maxRow, let entryToInsertAt = FRC.main.fetchedObjects?[row - 1] {
+            let firstEntryToUpdate = entryToMove.next
             CDController.moveEntry(entryToMove, below: entryToInsertAt)
+            _updateRunningTotals(from: firstEntryToUpdate, to: entryToMove)
         }
-        else if row < minRow, let entryToInsertAt = FRC.shared.fetchedObjects?[row] {
+        else if row < minRow, let entryToInsertAt = FRC.main.fetchedObjects?[row] {
+            let lastEntryToUpdate = entryToMove.previous
             CDController.moveEntry(entryToMove, above: entryToInsertAt)
-            if entryToMove.isFirst {
-                firstEntry = entryToMove
-            }
+            _updateRunningTotals(from: entryToMove, to: lastEntryToUpdate)
         }
-        
-        _updateRunningTotals(from: firstEntry)
-                
+                        
         return true
     }
 }
@@ -281,28 +261,26 @@ extension TableViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
-        guard delegate?.selectedAccount != nil else {
-            return nil
-        }
-        
-        guard let tableColumn,
+        guard delegate?.selectedAccount != nil,
+              let tableColumn,
               let cell = tableView.makeView(withIdentifier: tableColumn.identifier,
                                             owner: self) as? NSTableCellView
         else { return nil }
         
+        _configureCell(cell: cell, tableColumn: tableColumn, row: row)
         
         if row == self._draggedRow {
             cell.alphaValue = 0.2
-        } else {
-            _configureCell(cell: cell, tableColumn: tableColumn, row: row)
         }
+            
+        
 
         return cell
     }
 
     private func _configureCell(cell: NSTableCellView, tableColumn: NSTableColumn, row: Int) {
         // access the fetched AccountEntry at a given row
-        guard let entry = FRC.shared.fetchedObjects?[row] else {
+        guard let entry = FRC.main.fetchedObjects?[row] else {
             return
         }
         
@@ -327,6 +305,12 @@ extension TableViewController: NSTableViewDelegate {
 //            customCell?.linkedObject = entry
             break
         case Self.runningTotalColumnID:
+            if entry.runningTotal < 0 {
+//                (cell as? MyTableCellTextFieldView)?.textField?.textColor = .systemRed
+                cell.textField?.textColor = .systemRed
+            } else {
+                cell.textField?.textColor = .controlTextColor
+            }
             if entry.runningTotal.isZero {
                 cell.alphaValue = 0.2
             }
@@ -347,5 +331,54 @@ extension TableViewController {
     static let runningTotalColumnID = NSUserInterfaceItemIdentifier("runningTotalColumnID")
     
     static let textFieldErrorString = "---"
+
+}
+
+// Row Actions
+extension TableViewController {
+    var deleteRowAction: NSTableViewRowAction {
+            let deleteRowAction = NSTableViewRowAction(style: .destructive, title: "delete") { _, index in
+                guard let delegate = self.delegate,
+                      let entryToDelete = FRC.main.fetchedObjects?[index]
+                else { return }
+        
+                delegate.viewContext.perform {
+                    CDController.delete(entryToDelete, useRoundedTotals: delegate.useRoundedTotals) { success, newSelf in
+                        guard success, delegate.selectedEntry == entryToDelete else { return }
+                        delegate.didSelectRow(newSelf)
+                    }
+                }
+            }
+            let trashImage = NSImage(systemSymbolName: "trash", accessibilityDescription: nil)
+            deleteRowAction.image = trashImage
+        
+        return deleteRowAction
+    }
     
+    var archiveRowAction: NSTableViewRowAction {
+        let archiveRowAction = NSTableViewRowAction(style: .regular, title: "archive") { _, index in
+            self.tableView.rowActionsVisible.toggle()
+        }
+        let archiveImage = NSImage(systemSymbolName: "archivebox", accessibilityDescription: nil)
+        archiveRowAction.image = archiveImage
+        archiveRowAction.backgroundColor = .systemPurple
+        
+        return archiveRowAction
+    }
+    
+    var jumpToEntryAction: NSTableViewRowAction {
+        let jumpToEntryAction = NSTableViewRowAction(style: .regular, title: "goto") { _, index in
+            self.tableView.rowActionsVisible.toggle()
+            guard let delegate = self.delegate else { return }
+            let entryToFocus = FRC.main.fetchedObjects?[index]
+            delegate.dismissSearch()
+            delegate.didSelectRow(entryToFocus)
+            self.tableView.scrollRowToVisible(index)
+        }
+        let jumpToImage = NSImage(systemSymbolName: "line.diagonal.arrow", accessibilityDescription: nil)
+        jumpToEntryAction.image = jumpToImage
+        jumpToEntryAction.backgroundColor = .systemFill
+        
+        return jumpToEntryAction
+    }
 }

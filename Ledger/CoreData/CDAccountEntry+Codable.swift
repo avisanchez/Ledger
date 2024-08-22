@@ -3,11 +3,19 @@ import CoreData
 import UniformTypeIdentifiers
 import SwiftUI
 
-final class CDAccountEntry: NSManagedObject, Codable {
+final class CDAccountEntry: NSManagedObject, Codable, DecodableWithConfiguration {
     
     static var placeholder = CDAccountEntry(entity: CDAccountEntry.entity(), insertInto: nil)
     
-    required convenience init(from decoder: any Decoder) throws {
+    convenience init() {
+        self.init(entity: Self.entity(), insertInto: nil)
+    }
+    
+    convenience init(from decoder: any Decoder) throws {
+        self.init()
+    }
+    
+    required convenience init(from decoder: any Decoder, configuration version: Double) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext!] as? NSManagedObjectContext else {
             fatalError("Failed to establish context for CDAccount")
         }
@@ -20,28 +28,31 @@ final class CDAccountEntry: NSManagedObject, Codable {
         self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid) ?? UUID()
         self.date = try container.decode(Date.self, forKey: .date)
         self.notes = try container.decode(String.self, forKey: .notes)
-        self.debitAmount = Double(try container.decode(String.self, forKey: .debitAmount)) ?? 0.0
-        self.creditAmount = Double(try container.decode(String.self, forKey: .creditAmount)) ?? 0.0
+        switch version {
+        case 1.0:
+            self.debitAmount = Double(try container.decode(String.self, forKey: .debitAmount)) ?? 0.0
+            self.creditAmount = Double(try container.decode(String.self, forKey: .creditAmount)) ?? 0.0
+        case 2.0:
+            self.debitAmount = try container.decode(Double.self, forKey: .debitAmount)
+            self.creditAmount = try container.decode(Double.self, forKey: .creditAmount)
+        default:
+            break
+        }
+        
         self.posted = (try? container.decode(Bool.self, forKey: .posted)) ?? false
         self.sortOrder = try container.decodeIfPresent(Int.self, forKey: .sortOrder) ?? 0
-        self.owner = try container.decodeIfPresent(CDAccount.self, forKey: .owner)
-        self.next = try container.decodeIfPresent(CDAccountEntry.self, forKey: .next)
-        self.previous = try container.decodeIfPresent(CDAccountEntry.self, forKey: .previous)
     }
     
     public func encode(to encoder: any Encoder) throws { 
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(uuid, forKey: .uuid)
-        try container.encode(date, forKey: .date)
-        try container.encode(notes, forKey: .notes)
-        try container.encode(debitAmount, forKey: .debitAmount)
-        try container.encode(creditAmount, forKey: .creditAmount)
-        try container.encode(posted, forKey: .posted)
-        try container.encode(sortOrder, forKey: .sortOrder)
-        try container.encode(owner, forKey: .owner)
-        try container.encode(next, forKey: .next)
-        try container.encode(previous, forKey: .previous)
+        try container.encode(self.uuid, forKey: .uuid)
+        try container.encode(self.date, forKey: .date)
+        try container.encode(self.notes, forKey: .notes)
+        try container.encode(self.debitAmount, forKey: .debitAmount)
+        try container.encode(self.creditAmount, forKey: .creditAmount)
+        try container.encode(self.posted, forKey: .posted)
+        try container.encode(self.sortOrder, forKey: .sortOrder)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -52,12 +63,6 @@ final class CDAccountEntry: NSManagedObject, Codable {
         case debitAmount
         case creditAmount
         case posted
-        case sortOrder = "sortOrder_"
-       
-        
-        // Relationships
-        case owner
-        case next
-        case previous
+        case sortOrder
     }
 }

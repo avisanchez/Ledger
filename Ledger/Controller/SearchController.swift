@@ -49,7 +49,7 @@ class SearchController {
     
     func updateSuggestions(from oldInput: String, to newInput: String) {
         
-        guard let fetchedObjects = FRC.shared.fetchedObjects else { return }
+        guard let fetchedObjects = FRC.main.fetchedObjects else { return }
         
         let oldInput = oldInput.lowercased()
         let newInput = newInput.lowercased()
@@ -79,7 +79,7 @@ class SearchController {
     func search(using searchTerm: String) {
         var uniqueNotes: Set<String> = []
         
-        let results = FRC.shared.fetchedObjects?.filter({ entry in
+        let results = FRC.main.fetchedObjects?.filter({ entry in
             let lowercasedNote = entry.notes.lowercased()
             
             if !uniqueNotes.contains(lowercasedNote) && lowercasedNote.contains(searchTerm.lowercased()) {
@@ -93,12 +93,12 @@ class SearchController {
     }
     
     func search(using predicate: Predicate<CDAccountEntry>) {
-        let results = try? FRC.shared.fetchedObjects?.filter(predicate)
+        let results = try? FRC.main.fetchedObjects?.filter(predicate)
         self.searchResults = results ?? []
     }
     
     func submitSearch(_ account: CDAccount, notes: String) {
         let predicate = NSPredicate(format: "owner == %@ && notes_ MATCHES[c] %@", account, notes)
-        FRC.shared.updateFetch(using: predicate)
+        FRC.main.updateFetch(using: predicate)
     }
 }

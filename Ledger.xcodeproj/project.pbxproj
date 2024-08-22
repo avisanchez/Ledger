@@ -15,14 +15,11 @@
 		0E5E88FB2C2532610084B85A /* CDAccountEntry+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E88FA2C2532610084B85A /* CDAccountEntry+Codable.swift */; };
 		0E5E88FE2C2695D80084B85A /* Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E88FD2C2695D80084B85A /* Sortable.swift */; };
 		0E5E89082C2744E90084B85A /* KeyEquivalent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89072C2744E90084B85A /* KeyEquivalent.swift */; };
-		0E5E89272C2BDAB10084B85A /* CDAccountDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FF72C079C660034B411 /* CDAccountDropDelegate.swift */; };
-		0E5E892C2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E892B2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift */; };
 		0E5E89312C30C6220084B85A /* SidebarView+CreateAccountFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89302C30C6220084B85A /* SidebarView+CreateAccountFlow.swift */; };
 		0E5E89352C30E15B0084B85A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89342C30E15B0084B85A /* String.swift */; };
 		0E5E89382C31D4BC0084B85A /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC6FEF2C06766F0034B411 /* EditorView.swift */; };
-		0E5E893A2C33B5B70084B85A /* CodingUserInfoKey+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89392C33B5B70084B85A /* CodingUserInfoKey+helper.swift */; };
+		0E5E893A2C33B5B70084B85A /* CodingUserInfoKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E89392C33B5B70084B85A /* CodingUserInfoKey.swift */; };
 		0E5E893C2C33BD910084B85A /* NSSortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E893B2C33BD910084B85A /* NSSortDescriptor.swift */; };
-		0E5E89402C34FF410084B85A /* StringDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5E893F2C34FF410084B85A /* StringDropDelegate.swift */; };
 		0E6276ED2C1115F000CC857D /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276EC2C1115F000CC857D /* SidebarView.swift */; };
 		0E6276F32C12374100CC857D /* FetchDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6276F22C12374100CC857D /* FetchDescriptor.swift */; };
 		0E6277572C16D0B600CC857D /* CDAccount+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6277562C16D0B600CC857D /* CDAccount+helper.swift */; };
@@ -33,6 +30,7 @@
 		0E70E3342C7289E3006850F9 /* TableCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E70E3332C7289E3006850F9 /* TableCommands.swift */; };
 		0E70E3362C730BDA006850F9 /* MyTableCellTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E70E3352C730BDA006850F9 /* MyTableCellTextFieldView.swift */; };
 		0E881E152C646BFE00585C4C /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E881E142C646BFE00585C4C /* SearchController.swift */; };
+		0E8E14C22C764EA600CE38AD /* AccountFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8E14C12C764EA600CE38AD /* AccountFile.swift */; };
 		0EBF44CE2BEC51A60039CB5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44CD2BEC51A60039CB5E /* Assets.xcassets */; };
 		0EBF44D12BEC51A60039CB5E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBF44D02BEC51A60039CB5E /* Preview Assets.xcassets */; };
 		0EBF44E32BED560E0039CB5E /* LedgerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */; };
@@ -82,12 +80,10 @@
 		0E5E88FA2C2532610084B85A /* CDAccountEntry+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDAccountEntry+Codable.swift"; sourceTree = "<group>"; };
 		0E5E88FD2C2695D80084B85A /* Sortable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sortable.swift; sourceTree = "<group>"; };
 		0E5E89072C2744E90084B85A /* KeyEquivalent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEquivalent.swift; sourceTree = "<group>"; };
-		0E5E892B2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDAccountEntryDropDelegate.swift; sourceTree = "<group>"; };
 		0E5E89302C30C6220084B85A /* SidebarView+CreateAccountFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SidebarView+CreateAccountFlow.swift"; sourceTree = "<group>"; };
 		0E5E89342C30E15B0084B85A /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		0E5E89392C33B5B70084B85A /* CodingUserInfoKey+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodingUserInfoKey+helper.swift"; sourceTree = "<group>"; };
+		0E5E89392C33B5B70084B85A /* CodingUserInfoKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingUserInfoKey.swift; sourceTree = "<group>"; };
 		0E5E893B2C33BD910084B85A /* NSSortDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSortDescriptor.swift; sourceTree = "<group>"; };
-		0E5E893F2C34FF410084B85A /* StringDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDropDelegate.swift; sourceTree = "<group>"; };
 		0E6276EC2C1115F000CC857D /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		0E6276F22C12374100CC857D /* FetchDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDescriptor.swift; sourceTree = "<group>"; };
 		0E6277562C16D0B600CC857D /* CDAccount+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDAccount+helper.swift"; sourceTree = "<group>"; };
@@ -97,6 +93,8 @@
 		0E70E3332C7289E3006850F9 /* TableCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCommands.swift; sourceTree = "<group>"; };
 		0E70E3352C730BDA006850F9 /* MyTableCellTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableCellTextFieldView.swift; sourceTree = "<group>"; };
 		0E881E142C646BFE00585C4C /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		0E8E14C12C764EA600CE38AD /* AccountFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountFile.swift; sourceTree = "<group>"; };
+		0E8E14C32C7651F200CE38AD /* LedgerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LedgerRelease.entitlements; sourceTree = "<group>"; };
 		0EBF44C62BEC51A50039CB5E /* Ledger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ledger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerApp.swift; sourceTree = "<group>"; };
 		0EBF44CB2BEC51A50039CB5E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 		0EDC6FF12C0677C80034B411 /* MyStringFormatStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStringFormatStyle.swift; sourceTree = "<group>"; };
 		0EDC6FF32C0697A00034B411 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		0EDC6FF52C06B2340034B411 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		0EDC6FF72C079C660034B411 /* CDAccountDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDAccountDropDelegate.swift; sourceTree = "<group>"; };
 		0EDC6FF92C07D6F50034B411 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		0EE8B4FC2C4622E900A1AB43 /* TableView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TableView.storyboard; sourceTree = "<group>"; };
 		0EE8B5002C46FBA900A1AB43 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -157,16 +154,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		0E5E892A2C2CE9360084B85A /* Delegate */ = {
-			isa = PBXGroup;
-			children = (
-				0EDC6FF72C079C660034B411 /* CDAccountDropDelegate.swift */,
-				0E5E892B2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift */,
-				0E5E893F2C34FF410084B85A /* StringDropDelegate.swift */,
-			);
-			path = Delegate;
-			sourceTree = "<group>";
-		};
 		0E5E892F2C30C5C00084B85A /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +172,14 @@
 				0E62775B2C1960F000CC857D /* CDAccountEntry+helper.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		0E8E14C02C764E9000CE38AD /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				0E8E14C12C764EA600CE38AD /* AccountFile.swift */,
+			);
+			path = Document;
 			sourceTree = "<group>";
 		};
 		0EBF44BD2BEC51A50039CB5E = {
@@ -208,14 +203,13 @@
 		0EBF44C82BEC51A50039CB5E /* Ledger */ = {
 			isa = PBXGroup;
 			children = (
+				0E8E14C32C7651F200CE38AD /* LedgerRelease.entitlements */,
 				0E56DBC52BFDD4B40037D189 /* Info.plist */,
 				0EBF44C92BEC51A50039CB5E /* LedgerApp.swift */,
 				0E70E3332C7289E3006850F9 /* TableCommands.swift */,
-				0EBF44CB2BEC51A50039CB5E /* ContentView.swift */,
 				0ED8A5B22C5ADD460011E102 /* Constants.swift */,
-				0EE8B5042C480B2800A1AB43 /* TableView */,
-				0E5E892A2C2CE9360084B85A /* Delegate */,
 				0E5E88FC2C2688580084B85A /* Controller */,
+				0E8E14C02C764E9000CE38AD /* Document */,
 				0EDC6FEE2C0582610034B411 /* Extension */,
 				0EDC6FE92C056B200034B411 /* View */,
 				0E6277542C16CD9000CC857D /* CoreData */,
@@ -248,14 +242,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		0ED001A72C6C84E40022CD68 /* Atomic */ = {
+		0ED001A72C6C84E40022CD68 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
 				0E5E89342C30E15B0084B85A /* String.swift */,
 				0ED001A82C6C84FB0022CD68 /* Date.swift */,
 				0ED001A52C6C844E0022CD68 /* Double.swift */,
 			);
-			path = Atomic;
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		0ED001AA2C6C85340022CD68 /* Cocoa */ = {
@@ -286,6 +280,8 @@
 		0EDC6FE92C056B200034B411 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0EBF44CB2BEC51A50039CB5E /* ContentView.swift */,
+				0EE8B5042C480B2800A1AB43 /* Table */,
 				0E5E892F2C30C5C00084B85A /* Sidebar */,
 				0EDC6FEF2C06766F0034B411 /* EditorView.swift */,
 				0EDC6FF92C07D6F50034B411 /* NotificationView.swift */,
@@ -298,8 +294,8 @@
 			children = (
 				0ED001AB2C6C85940022CD68 /* Swift */,
 				0ED001AA2C6C85340022CD68 /* Cocoa */,
-				0ED001A72C6C84E40022CD68 /* Atomic */,
-				0E5E89392C33B5B70084B85A /* CodingUserInfoKey+helper.swift */,
+				0ED001A72C6C84E40022CD68 /* Foundation */,
+				0E5E89392C33B5B70084B85A /* CodingUserInfoKey.swift */,
 				0EDC6FF12C0677C80034B411 /* MyStringFormatStyle.swift */,
 				0ED001AC2C6C863C0022CD68 /* MyDateFormatStyle.swift */,
 				0E1C764E2C705DE2005BECA5 /* MyEmptyFormatStyle.swift */,
@@ -307,14 +303,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		0EE8B5042C480B2800A1AB43 /* TableView */ = {
+		0EE8B5042C480B2800A1AB43 /* Table */ = {
 			isa = PBXGroup;
 			children = (
 				0EE8B5002C46FBA900A1AB43 /* TableViewController.swift */,
 				0EE8B5052C480B6A00A1AB43 /* TableViewControllerRepresentable.swift */,
 				0E70E3352C730BDA006850F9 /* MyTableCellTextFieldView.swift */,
 			);
-			path = TableView;
+			path = Table;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,7 +397,7 @@
 				0E5E88FE2C2695D80084B85A /* Sortable.swift in Sources */,
 				0ED8A5B32C5ADD460011E102 /* Constants.swift in Sources */,
 				0ED001A42C6C84100022CD68 /* DefaultInitalizable.swift in Sources */,
-				0E5E893A2C33B5B70084B85A /* CodingUserInfoKey+helper.swift in Sources */,
+				0E5E893A2C33B5B70084B85A /* CodingUserInfoKey.swift in Sources */,
 				0EDC6FF22C0677C80034B411 /* MyStringFormatStyle.swift in Sources */,
 				0ED0019F2C6898CB0022CD68 /* NSPredicate.swift in Sources */,
 				0EE8B5062C480B6A00A1AB43 /* TableViewControllerRepresentable.swift in Sources */,
@@ -413,18 +409,17 @@
 				0E6276F32C12374100CC857D /* FetchDescriptor.swift in Sources */,
 				0ED001AD2C6C863C0022CD68 /* MyDateFormatStyle.swift in Sources */,
 				0E5E893C2C33BD910084B85A /* NSSortDescriptor.swift in Sources */,
-				0E5E89402C34FF410084B85A /* StringDropDelegate.swift in Sources */,
 				0E5E88F92C2532300084B85A /* CDAccount+Codable.swift in Sources */,
 				0E1C764B2C704515005BECA5 /* NSTableView.swift in Sources */,
 				0E5E88AB2C1AAAAD0084B85A /* NSSet.swift in Sources */,
 				0E5E89382C31D4BC0084B85A /* EditorView.swift in Sources */,
 				0EBF44E32BED560E0039CB5E /* LedgerApp.swift in Sources */,
-				0E5E89272C2BDAB10084B85A /* CDAccountDropDelegate.swift in Sources */,
 				0E6277572C16D0B600CC857D /* CDAccount+helper.swift in Sources */,
 				0E1C764F2C705DE2005BECA5 /* MyEmptyFormatStyle.swift in Sources */,
 				0EBF44E42BED560E0039CB5E /* ContentView.swift in Sources */,
 				0E70E3282C71537B006850F9 /* CaseIterable.swift in Sources */,
 				0E5E89312C30C6220084B85A /* SidebarView+CreateAccountFlow.swift in Sources */,
+				0E8E14C22C764EA600CE38AD /* AccountFile.swift in Sources */,
 				0EE8B51B2C4F8B5A00A1AB43 /* TableViewControllerDelegate.swift in Sources */,
 				0E70E3342C7289E3006850F9 /* TableCommands.swift in Sources */,
 				0EDC6FF42C0697A00034B411 /* View.swift in Sources */,
@@ -433,7 +428,6 @@
 				0E1C764D2C704E0D005BECA5 /* KeyboardShortcut.swift in Sources */,
 				0ED001A92C6C84FB0022CD68 /* Date.swift in Sources */,
 				0ED8A5B52C6034940011E102 /* NSManagedObjectContext.swift in Sources */,
-				0E5E892C2C2CE9630084B85A /* CDAccountEntryDropDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,7 +591,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Ledger/Ledger.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Ledger/LedgerRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

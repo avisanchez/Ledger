@@ -68,10 +68,9 @@ struct EditorView: View {
              Spacer()
             
             Text(entry.runningTotal, format: .currency(code: "USD"))
-                .foregroundStyle(.red)
-                .font(.title2)
-                .fontWeight(.semibold)
                 .fixedSize()
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(entry.runningTotal < 0 ? .red : .primary)
                 .opacity(entry == .placeholder ? 0.2 : 1)
         }
         .environmentObject(entry)

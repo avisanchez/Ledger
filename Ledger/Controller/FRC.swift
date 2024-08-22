@@ -11,7 +11,9 @@ import AppKit
 
 final class FRC: NSFetchedResultsController<CDAccountEntry>, NSFetchedResultsControllerDelegate {
     
-    static let shared = FRC()
+    static let main = FRC()
+    
+    static let search = FRC()
     
     var tableView: NSTableView? {
         didSet { tableView?.reloadData() }
@@ -33,10 +35,10 @@ final class FRC: NSFetchedResultsController<CDAccountEntry>, NSFetchedResultsCon
     }
     
     func updateFetch(using predicate: NSPredicate) {
-        Self.shared.fetchRequest.predicate = predicate
+        self.fetchRequest.predicate = predicate
         
         do {
-            try Self.shared.performFetch()
+            try self.performFetch()
         } catch {
             fatalError("Failed to perform fetch: \(error)")
         }

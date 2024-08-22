@@ -17,13 +17,19 @@ struct TableCommands: Commands {
             Button("Add Row Above") {
                 guard let selectedAccount = viewController.selectedAccount else { return }
                 let selectedEntry =  viewController.selectedEntry
-                CDController.createEntry(for: selectedAccount, above: selectedEntry)
+                let newEntry = CDController.createEntry(for: selectedAccount, above: selectedEntry)
+                CDController.updateRunningTotals(from: newEntry,
+                                                 to: newEntry,
+                                                 useRoundedTotals: viewController.useRoundedTotals)
             }
             
             Button("Add Row Below") {
                 guard let selectedAccount = viewController.selectedAccount else { return }
                 let selectedEntry = viewController.selectedEntry
-                CDController.createEntry(for: selectedAccount, below: selectedEntry)
+                let newEntry = CDController.createEntry(for: selectedAccount, below: selectedEntry)
+                CDController.updateRunningTotals(from: newEntry,
+                                                 to: newEntry,
+                                                 useRoundedTotals: viewController.useRoundedTotals)
             }
             
             Divider()
@@ -44,20 +50,22 @@ struct TableCommands: Commands {
             Divider()
             
             Menu("Jump To") {
-                Text("Top")
-                    .keyboardShortcut(.jumpToTop)
+                Button("Top") {
+                    
+                }
+                .keyboardShortcut(.jumpToTop)
+                
+                Button("Bottom") {
+                }
+                .keyboardShortcut(.jumpToBottom)
+                
+                Button("Selection") {
+                }
+                .keyboardShortcut(.jumpToSelection)
+                
             }
-//                Button("Bottom") {
-//                    jumpDestination = .bottom
-//                }
-//                .keyboardShortcut(.jumpToBottom)
-//                
-//                Button("Selection") {
-//                    jumpDestination = .selection
-//                }
-//                .keyboardShortcut(.jumpToSelection)
-//                
-//            }
+            .disabled(true)
+
             
             Divider()
             

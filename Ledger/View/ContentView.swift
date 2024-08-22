@@ -32,6 +32,8 @@ struct ContentView: View {
     
     @State var searchController = SearchController()
     
+    @State var isPresentingFileExporter: Bool = false
+    
     var body: some View {
         let viewController = Bindable(viewController)
         
@@ -50,20 +52,13 @@ struct ContentView: View {
                     Button("Print Registered Objects") {
                         print(PersistenceController.shared.viewContext.registeredObjects)
                     }
+                    
+                    Button("Export Selected File") {
+                        isPresentingFileExporter.toggle()
+                    }
+                    
                     TableViewControllerRepresentable()
                         .environment(searchController)
-                        .onKeyPress(.delete) {
-                            guard let selectedEntry = self.viewController.selectedEntry else { return .ignored }
-                            
-                            viewContext.perform {
-                                CDController.delete(selectedEntry, useRoundedTotals: self.viewController.useRoundedTotals) { success, newSelf in
-                                    guard success else { return }
-                                    self.viewController.selectedEntry = newSelf
-                                }
-                            }
-                            
-                            return .handled
-                        }
                     
                     EditorView(entry: self.viewController.selectedEntry ?? .placeholder)
                 }
@@ -106,30 +101,41 @@ struct ContentView: View {
             switch result {
             case .success(let files):
                 files.forEach { file in
-                    // gain access to the directory
-                    let gotAccess = file.startAccessingSecurityScopedResource()
                     
-                    if !gotAccess { return }
-                    // access the directory URL
-                    // (read templates in the directory, make a bookmark, etc.)
+                        // gain access to the directory
+                        let gotAccess = file.startAccessingSecurityScopedResource()
+                        
+                        if !gotAccess { return }
+                        // access the directory URL
+                        // (read templates in the directory, make a bookmark, etc.)
                     
-                    do {
-                        let newAccount = try CDAccount.load(from: file,
-                                                            savingTo: viewContext)
-                        self.viewController.selectedAccount = newAccount
-                    } catch {
-                        fatalError("\(error)")
-                    }
+                        do {
+                            let newAccount = try CDAccount.load(from: file,
+                                                                savingTo: viewContext)
+                            self.viewController.selectedAccount = newAccount
+                        } catch {
+                            fatalError("\(error)")
+                        }
+                        
+                        // release access
+                        file.stopAccessingSecurityScopedResource()
                     
                     
-                    // release access
-                    file.stopAccessingSecurityScopedResource()
+                    
+                    
                 }
             case .failure(let error):
                 // handle error
                 fatalError("\(error)")
             }
         }
+      .fileExporter(isPresented: $isPresentingFileExporter,
+                    document: AccountFile(observedSelectedAccount),
+                    contentType: .propertyList,
+                    defaultFilename: observedSelectedAccount.exportFilename,
+                    onCompletion: { result in
+      })
+      
         .toolbar {
           
             blurViewButton
@@ -164,7 +170,9 @@ extension ContentView {
         Button {
             guard let selectedAccount = viewController.selectedAccount else { return }
             let selectedEntry = viewController.selectedEntry
-            CDController.createEntry(for: selectedAccount, below: selectedEntry)
+            let newEntry = CDController.createEntry(for: selectedAccount, below: selectedEntry)
+            CDController.updateRunningTotals(from: newEntry,
+                                             useRoundedTotals: viewController.useRoundedTotals)
         } label: {
             Image(systemName: "plus")
         }

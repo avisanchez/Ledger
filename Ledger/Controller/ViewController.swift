@@ -25,7 +25,9 @@ enum TableScale: CaseIterable, Identifiable {
 @Observable
 class ViewController {
     
-    var selectedAccount: CDAccount? = nil
+    var selectedAccount: CDAccount? = nil {
+        didSet { selectedEntry = nil }
+    }
     
     var selectedEntry: CDAccountEntry? = nil
         

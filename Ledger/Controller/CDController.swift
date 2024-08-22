@@ -119,6 +119,7 @@ final class CDController {
         guard let viewContext = account.managedObjectContext else { return nil }
                 
         let newEntry = CDAccountEntry(context: viewContext, owner: account)
+        newEntry.notes = "New Entry"
         
         if let entry {
             _link(newEntry, entry.next)

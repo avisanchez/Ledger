@@ -6,9 +6,14 @@
 //
 
 import Foundation
+import CoreData
 
 
 protocol TableViewControllerDelegate: AnyObject {
+    var viewContext: NSManagedObjectContext {
+        get
+    }
+    
     var selectedAccount: CDAccount? {
         get
     }
@@ -27,5 +32,12 @@ protocol TableViewControllerDelegate: AnyObject {
         set
     }
     
+    var isSearching: Bool {
+        get
+        set
+    }
+    
     func didSelectRow(_ entry: CDAccountEntry?)
+    
+    func dismissSearch()
 }
